@@ -2,23 +2,12 @@
 {% block content %}
 {% load static %}
 
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-
 <style>
     * {
-        padding: 0;
-        margin: 0;
+
         font-family: "Gill Sans", sans-serif;
         color: white;
     }
-
-    /* .container-fluid {
-            background-color: black;
-            
-          
-        } */
 
     input[type="text"],
     input[type="date"],
@@ -51,274 +40,321 @@
         padding-right: 2rem;
     }
 
-    .image {
+
+    .action-button {
         display: flex;
-        /* justify-content: space-between; */
+        align-items: center;
+        justify-content: center;
     }
+
+    .action-button button {
+        width: 13vw;
+        font-size: 1.2vw;
+        margin: 0.5rem .5rem;
+    }
+
+    label {
+        font-size: 1.2vw;
+    }
+
+    .containerprof {
+
+        position: relative;
+
+    }
+
+    /* section{
+        
+    } */
 </style>
-<div class="container-fluid containerprof p-5">
-    <div class="header pb-5">
-        <h3>CREATE PAYROLL</h3>
-        <hr>
-    </div>
-
-    <div class="row">
-        <div class="data col-6 col-lg-6 col-md-6 col-sm-12">
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Name</label>
-                </div>
-                <div class="col-6"><input type="text" class="form-control" name="name"></div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Alias</label>
-                </div>
-                <div class="col-6"><input type="text" class="form-control" name="alias"></div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Date of joining</label>
-                </div>
-                <div class="col-6"><input type="date" class="form-control" name="joindate"></div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Define salary details</label>
-                </div>
-                <div class="col-6">
-                    <select class="form-control" name="saldetail" id="dropId2" onclick="salary()">
-                        <option value="">Select</option>
-                        <option value="Fixed">Fixed</option>
-                        <option value="Variable">Variable</option>
-                    </select>
-                </div>
-            </div>
-            <div id="fixed" style="display: none;">
-                <div class="row">
-                    <div class="col-6">
-                        <label for="">Salary Amount</label>
-                    </div>
-                    <div class="col-6"><input type="number" class="form-control" name="salary"></div>
-                </div>
-
-            </div>
-            <div id="variable" style="display: none;">
-                <div class="row pb-3">
-                    <div class="col-6">
-                        <label for="">Amount per Hour</label>
-                    </div>
-                    <div class="col-6"><input type="number" class="form-control" name="amnt" id="amnt" ></div>
-                </div>
-                <div class="row pb-3">
-                    <div class="col-6">
-                        <label for="">Total working Hours</label>
-                    </div>
-                    <div class="col-6"><input type="number" class="form-control" name="hours" id="hours" onkeyup="calculateAmount()"
-                            ></div>
-                </div>
-                <div class="row pb-3">
-                    <div class="col-6">
-                        <label for="">Salary Amount</label>
-                    </div>
-                    <div class="col-6"><input type="number" class="form-control" name="salary" id="salary" ></div>
-                </div>
-            </div>
+<section>
+    <div class="containerprof p-5">
+        <div class="header pb-5">
+            <h3>CREATE PAYROLL</h3>
+            <hr>
         </div>
-        <div class="image col-6 col-lg-6 col-md-6 col-sm-12">
-            <!-- <div class="profile-img text-center row">
-                <div class="col-12"><img src="" alt="" width="190px" height="200px" id="img"></div>
-            </div> -->
-
+        <form method="POST" action="{% url 'createpayroll' %}" enctype="multipart/form-data" id="myForm">
+            {% csrf_token %}
             <div class="row">
-                <div class="col-6">
-                    <label for="">Upload Image</label>                    
-                    <input type="file" name="file" class="form-control" accept="image/*" onchange="loadFile(event)">
+                <div class="data col-6 col-lg-6 col-md-6 col-sm-12">
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Name</label>
+                        </div>
+                        <div class="col-6"><input type="text" class="form-control" name="name"></div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Alias</label>
+                        </div>
+                        <div class="col-6"><input type="text" class="form-control" name="alias"></div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Date of joining</label>
+                        </div>
+                        <div class="col-6"><input type="date" class="form-control" name="joindate"></div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Define salary details</label>
+                        </div>
+                        <div class="col-6">
+                            <select class="form-control" name="saltype" id="sal" onchange="salFunction()">
+                                <option value="">Select</option>
+                                <option value="Fixed">Fixed</option>
+                                <option value="Variable">Variable</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="fixed" style="display: none;">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="">Salary Amount</label>
+                            </div>
+                            <div class="col-6"><input type="number" class="form-control" name="salary"></div>
+                        </div>
+
+                    </div>
+                    <div id="variable" style="display: none;">
+                        <div class="row pb-3">
+                            <div class="col-6">
+                                <label for="">Amount per Hour</label>
+                            </div>
+                            <div class="col-6"><input type="number" class="form-control" name="amnt" id="amnt"></div>
+                        </div>
+                        <div class="row pb-3">
+                            <div class="col-6">
+                                <label for="">Total working Hours</label>
+                            </div>
+                            <div class="col-6"><input type="number" class="form-control" name="hours" id="hours"
+                                    onkeyup="calculateAmount()"></div>
+                        </div>
+                        <div class="row pb-3">
+                            <div class="col-6">
+                                <label for="">Salary Amount</label>
+                            </div>
+                            <div class="col-6"><input type="number" class="form-control" name="salary" id="salary">
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
-                <div class="col-6">
-                    <img src="" alt="" width="190px" height="200px" id="img">
+                <div class="image col-6 col-lg-6 col-md-6 col-sm-12">
+
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="">Upload Image</label>
+                            <input type="file" name="file" class="form-control" accept="image/*"
+                                onchange="loadFile(event)">
+
+                        </div>
+                        <div class="col-6">
+                            <img src="{% static 'images/payroll_img.png' %}" alt="" width="190px" height="200px"
+                                id="img">
+                        </div>
+                    </div>
+
+
+                </div>
+                <script>
+                    var loadFile = function (event) {
+                        var reader = new FileReader();
+                        reader.onload = function () {
+                            var output = document.getElementById('img');
+                            output.src = reader.result;
+                        };
+                        reader.readAsDataURL(event.target.files[0]);
+                    };
+
+                </script>
+            </div>
+            <div class="gen-info row pt-5">
+                <div class="left col-6 col-lg-6 col-md-6 col-sm-12">
+                    <h4 class="text-center py-2">General information</h4>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Employee Number</label>
+                        </div>
+                        <div class="col-6"><input type="number" class="form-control" name="empnum"></div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Designation</label>
+                        </div>
+                        <div class="col-6"><input type="text" class="form-control" name="designation"></div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Location</label>
+                        </div>
+                        <div class="col-6"><input type="text" class="form-control" name="location"></div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Gender</label>
+                        </div>
+                        <div class="col-6">
+                            <select class="form-control" name="gender" id="dropId3">
+                                <option value="">Select</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Transgender">Transgender</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Date of Birth</label>
+                        </div>
+                        <div class="col-6"><input type="date" class="form-control" name="dob"></div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Blood Group</label>
+                        </div>
+                        <div class="col-6"><input type="text" class="form-control" name="blood"></div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Father's Name/Mother's Name</label>
+                        </div>
+                        <div class="col-6"><input type="text" class="form-control" name="fm_name"></div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Spouse's Name</label>
+                        </div>
+                        <div class="col-6"><input type="text" class="form-control" name="s_name"></div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Address</label>
+                        </div>
+                        <div class="col-6"><textarea class="form-control" name="address"></textarea></div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Phone Number</label>
+                        </div>
+                        <div class="col-6"><input type="number" class="form-control" name="phone"></div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Email</label>
+                        </div>
+                        <div class="col-6"><input type="email" class="form-control" name="email"></div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-6 col-md-6 col-sm-12 pt-3">
+                    <div class="row pb-4">
+                        <div class="col-6">
+                            <label for="">Provide Bank Details</label>
+                        </div>
+                        <div class="col-6"><select class="form-control" name="bank" id="dropId"
+                                onchange="bankdisplay()">
+                                <option value="">Select</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bank" id="bank" style="display: none;">
+                        <h4 class="text-center py-2">Bank information</h4>
+                        <div class="row pb-3">
+                            <div class="col-6">
+                                <label for="">Account Number</label>
+                            </div>
+                            <div class="col-6"><input type="number" class="form-control" name="acc_no"></div>
+                        </div>
+                        <div class="row pb-3">
+                            <div class="col-6">
+                                <label for="">IFSC</label>
+                            </div>
+                            <div class="col-6"><input type="text" class="form-control" name="ifsc"></div>
+                        </div>
+                        <div class="row pb-3">
+                            <div class="col-6">
+                                <label for="">Name of Bank</label>
+                            </div>
+                            <div class="col-6"><input type="text" class="form-control" name="b_name"></div>
+                        </div>
+                        <div class="row pb-3">
+                            <div class="col-6">
+                                <label for="">Branch Name</label>
+                            </div>
+                            <div class="col-6"><input type="text" class="form-control" name="branch"></div>
+                        </div>
+                        <h5 class="text-center py-1">For Banking</h5>
+                        <div class="row pb-3">
+                            <div class="col-6">
+                                <label for="">Transaction Type</label>
+                            </div>
+                            <div class="col-6">
+                                <select class="form-control" name="ttype" id="ttype">
+                                    <option value="Yes">ATM</option>
+                                    <option value="No">Cash</option>
+                                    <option value="No">Check</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="text-center py-2">Statutary information</h4>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Income Tax Number</label>
+                        </div>
+                        <div class="col-6"><input type="number" class="form-control" name="itn"></div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Aadhar Number</label>
+                        </div>
+                        <div class="col-6"><input type="number" class="form-control" name="an"></div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Universal Account Number(UAN)</label>
+                        </div>
+                        <div class="col-6"><input type="number" class="form-control" name="uan"></div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">PF Account Number(PFN)</label>
+                        </div>
+                        <div class="col-6"><input type="number" class="form-control" name="pfn"></div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">PR Account Number(PRAN)</label>
+                        </div>
+                        <div class="col-6"><input type="text" class="form-control" name="pran"></div>
+                    </div>
                 </div>
             </div>
-            
+            <hr>
+            <div class="action-button">
+                <button class="btn btn-primary" type="submit">Add</button>
+                <button class="btn btn-danger" type="reset">Cancel</button>
+            </div>
+            <div class="text-center">
+                {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert" id="alert">
+                    <strong>{{message}}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+        </form>
 
-        </div>
-        <script>
-            var loadFile = function (event) {
-                var reader = new FileReader();
-                reader.onload = function () {
-                    var output = document.getElementById('img');
-                    output.src = reader.result;
-                };
-                reader.readAsDataURL(event.target.files[0]);
-            };
-        </script>
     </div>
-    <div class="gen-info row pt-5">
-        <div class="left col-6 col-lg-6 col-md-6 col-sm-12">
-            <h4 class="text-center py-2">General information</h4>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Employee Number</label>
-                </div>
-                <div class="col-6"><input type="text" class="form-control"></div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Designation</label>
-                </div>
-                <div class="col-6"><input type="text" class="form-control"></div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Location</label>
-                </div>
-                <div class="col-6"><input type="text" class="form-control"></div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Gender</label>
-                </div>
-                <div class="col-6"><input type="text" class="form-control"></div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Date of Birth</label>
-                </div>
-                <div class="col-6"><input type="date" class="form-control"></div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Blood Group</label>
-                </div>
-                <div class="col-6"><input type="text" class="form-control"></div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Father's Name/Mother's Name</label>
-                </div>
-                <div class="col-6"><input type="text" class="form-control"></div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Spouse's Name</label>
-                </div>
-                <div class="col-6"><input type="text" class="form-control"></div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Address</label>
-                </div>
-                <div class="col-6"><textarea class="form-control"></textarea></div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Phone Number</label>
-                </div>
-                <div class="col-6"><input type="number" class="form-control"></div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Email</label>
-                </div>
-                <div class="col-6"><input type="email" class="form-control"></div>
-            </div>
-        </div>
-        <div class="col-6 col-lg-6 col-md-6 col-sm-12 pt-3">
-            <div class="row pb-4">
-                <div class="col-6">
-                    <label for="">Provide Bank Details</label>
-                </div>
-                <div class="col-6"><select class="form-control" name="select" id="dropId" onchange="bankdisplay()">
-                        <option value="">Select</option>
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                    </select>
-                </div>
-            </div>
-            <div class="bank" id="bank" style="display: none;">
-                <h4 class="text-center py-2">Bank information</h4>
-                <div class="row pb-3">
-                    <div class="col-6">
-                        <label for="">Account Number</label>
-                    </div>
-                    <div class="col-6"><input type="text" class="form-control"></div>
-                </div>
-                <div class="row pb-3">
-                    <div class="col-6">
-                        <label for="">IFSC</label>
-                    </div>
-                    <div class="col-6"><input type="text" class="form-control"></div>
-                </div>
-                <div class="row pb-3">
-                    <div class="col-6">
-                        <label for="">Name of Bank</label>
-                    </div>
-                    <div class="col-6"><input type="text" class="form-control"></div>
-                </div>
-                <div class="row pb-3">
-                    <div class="col-6">
-                        <label for="">Branch Name</label>
-                    </div>
-                    <div class="col-6"><input type="text" class="form-control"></div>
-                </div>
-                <h5 class="text-center py-1">For Banking</h5>
-                <div class="row pb-3">
-                    <div class="col-6">
-                        <label for="">Transaction Type</label>
-                    </div>
-                    <div class="col-6">
-                        <select class="form-control" name="ttype" id="ttype">
-                            <option value="Yes">ATM</option>
-                            <option value="No">Cash</option>
-                            <option value="No">Check</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <h4 class="text-center py-2">Statutary information</h4>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Income Tax Number</label>
-                </div>
-                <div class="col-6"><input type="text" class="form-control"></div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Aadhar Number</label>
-                </div>
-                <div class="col-6"><input type="text" class="form-control"></div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Universal Account Number(UAN)</label>
-                </div>
-                <div class="col-6"><input type="number" class="form-control"></div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">PF Account Number(PFN)</label>
-                </div>
-                <div class="col-6"><input type="number" class="form-control"></div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <label for="">Universal Account Number(UAN)</label>
-                </div>
-                <div class="col-6"><input type="text" class="form-control"></div>
-            </div>
-        </div>
-    </div>
-    <hr>
-</div>
 
 
 
+</section>
 
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-    crossorigin="anonymous"></script>
 <script>
     function bankdisplay() {
         var e = document.getElementById("dropId").value;
@@ -331,14 +367,14 @@
         }
 
     }
-    function salary() {
-        var e = document.getElementById("dropId2").value;
-
-        if (e == 'Fixed') {
+    function salFunction() {
+        var e = document.getElementById("sal");
+        var sal = e.value;
+        if (sal == 'Fixed') {
             document.getElementById("fixed").style.display = 'block'
             document.getElementById("variable").style.display = 'none'
         }
-        else if (e == 'Variable') {
+        else if (sal == 'Variable') {
             document.getElementById("variable").style.display = 'block'
             document.getElementById("fixed").style.display = 'none'
         }

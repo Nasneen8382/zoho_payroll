@@ -6808,3 +6808,49 @@ def payment_delete_details(request):
 
 def payroll_create(request):
     return render(request,'payroll_create.html')
+def createpayroll(request):
+    if request.method=='POST':
+        name=request.POST['name']
+        alias=request.POST['alias']
+        joindate=request.POST['joindate']
+        saltype=request.POST['saltype']
+        salary=request.POST['salary']
+        image=request.FILES.get('file')
+        empnum=request.POST['empnum']
+        designation = request.POST['designation']
+        location=request.POST['location']
+        gender=request.POST['gender']
+        dob=request.POST['dob']
+        blood=request.POST['blood']
+        fmname=request.POST['fm_name']
+        sname=request.POST['s_name']        
+        address=request.POST['address'] 
+        phone=request.POST['phone']
+        email=request.POST['email']       
+        itn=request.POST['itn']
+        an=request.POST['an']        
+        uan=request.POST['uan'] 
+        pfn=request.POST['pfn']
+        pran=request.POST['pran']
+        payroll= Payroll(name=name,alias=alias,image=image,joindate=joindate,salary_type=saltype,salary=salary,emp_number=empnum,designation=designation,location=location,
+                         gender=gender,dob=dob,blood=blood,parent=fmname,spouse_name=sname,address=address,Phone=phone,
+                         email=email,ITN=itn,Aadhar=an,UAN=uan,PFN=pfn,PRAN=pran)
+        payroll.save()
+
+        bank=request.POST['bank']
+        if(bank== 1):
+            accno=request.POST['acc_no']       
+            ifsc=request.POST['ifsc']       
+            bname=request.POST['b_name']       
+            branch=request.POST['branch']
+            ttype=request.POST['ttype']
+            b=Bankdetails(payroll=payroll,acc_no=accno,IFSC=ifsc,bank_name=bname,branch=branch,transaction_type=ttype)
+            b.save()
+        messages.success(request,'Saved succefully !')
+        print(bank)
+        return redirect('payroll_create')
+    else:
+         return redirect('payroll_create')
+def payroll_list(request):
+    p=Payroll.objects.all()
+    return render(request,'payroll_list.html',{'pay':p})
