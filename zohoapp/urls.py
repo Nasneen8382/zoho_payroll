@@ -323,6 +323,9 @@ urlpatterns = [
     path('payroll_create',views.payroll_create,name='payroll_create'),
     path('payroll_list',views.payroll_list,name='payroll_list'),
     path('createpayroll',views.createpayroll,name='createpayroll'),
+    path('payroll_delete/<int:pid>',views.payroll_delete,name='payroll_delete'),
+    path('payroll_view/<int:id>',views.payroll_view,name='payroll_view'),
+    path('payroll_active/<int:id>',views.payroll_active,name='payroll_active'),
 	
     
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),

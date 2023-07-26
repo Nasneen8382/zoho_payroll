@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<style>
+    * {
+
+        font-family: "Gill Sans", sans-serif;
+        color: white;
+    }
+
+    .list {
+        background-color: rgb(29, 29, 29);
+    }
+
+    .overview {
+        background-color: black;
+    }
+
+    .searchbar,
+    .overview .bar {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        /* padding: 1rem .8rem; */
+    }
+
+    .searchbar .btn {
+        width: 5vw;
+        background-color: rgb(28, 117, 233);
+        font-size: 1vw;
+        color: rgb(255, 255, 255);
+    }
+
+    .bold {
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .table tr:hover {
+        background-color: rgb(19, 19, 19);
+    }
+
+    .overview .bar .btn {
+        background-color: rgb(238, 164, 27);
+        color: #ffff;
+    }
+
+    .overview .bar .btn:hover,
+    .overview .bar .btn i:hover {
+        background-color: rgb(182, 180, 178);
+        color: #000000;
+    }
+
+    .p-name {
+        height: 2.5vw;
+    }
+</style>
+<section>
+    <div class="row p-3">
+        <div class="list col-4 py-3">
+            <div class="header">
+                <h5>PAYROLL LIST</h5>
+            </div>
+            <div class="searchbar">
+                <input class="form-control" type="text" placeholder="Search by Name" name="search" id="search"
+                    onkeyup="searchFunction()"
+                    style="color: rgb(255, 255, 255);background: transparent;margin-right: 5px;">
+                <a class="btn btn-outline-primary mx-1" href=""><i class="fa fa-filter"></i></a>
+                <a class="btn btn-outline-primary mr-1" href="{% url 'payroll_create' %}"><i class="fa fa-plus"></i></a>
+            </div>
+            <hr>
+            <table class="table table-borderless" id="mytable">
+                {% for i in pay %}
+                <tr class='clickable-row' data-href="{% url 'payroll_view' i.id %}">
+                    <td class="pt-2">
+                        <p class="bold">{{ i.name}}</p>
+                        <p class="text-secondary">{{ i.joindate}}</p>
+
+                    </td>
+                    <td class="pt-2 text-secondary">{{ i.salary}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="overview col-8 py-3">
+            <div id="overview">
+                <div class="p-name">
+                    <h3 class="px-2 pb-2" id="id1">{{p.name}}</h3>
+                </div>
+
+                <div class="bar pt-3">
+                    <div class="left">
+                        <a class="btn mx-1" href="#home">Overview</a>
+                    </div>
+                    <div class="right">
+                        <a class="btn ml-1" href=""><i class="fas fa-edit"></i></a>
+                        <a class="btn ml-1" href=""><i class="fa fa-trash"></i></a>
+                        <a class="btn ml-1" href=""><i class="far fa-comment"></i></a>
+                        <a class="btn ml-1" href=""><i class="fas fa-paperclip"></i></a>
+                        <a class="btn ml-1" href="" id="sts">Active</a>
+                    </div>
+                </div>
+                <hr>
+                <div id="details-section">
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="">name</label>
+                        </div>
+                        <div class="col-4">
+                            <p class="bold">{{p.name}}</p>
+                        </div>
+                        <div class="col-5 p-3">
+                            <img class="imgfluid" src="{{p.image.url}}" alt="" height="200px" style="border-radius: 1rem;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+
+<script>
+
+    jQuery(document).ready(function ($) {
+        $(".clickable-row").click(function () {
+            window.location = $(this).data("href");
+        });
+    });
+
+    function searchFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("search");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("mytable");
+        tr = table.getElementsByTagName("tr");
+        // input.style.borderColor = "green";
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                }
+                else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+{% endblock %}
+
+<!-- edit com attach dele active/inactive -->

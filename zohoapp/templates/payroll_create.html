@@ -24,6 +24,12 @@
         border: none;
     }
 
+    input[type="text"],.gen-info textarea {
+
+        text-transform: capitalize;
+
+    }
+
     input[type="text"]:focus,
     input[type="date"]:focus,
     input[type="number"]:focus,
@@ -271,7 +277,8 @@
                             <div class="col-6">
                                 <label for="">IFSC</label>
                             </div>
-                            <div class="col-6"><input type="text" class="form-control" name="ifsc"></div>
+                            <div class="col-6"><input type="text" class="form-control" name="ifsc"
+                                    style="text-transform:uppercase"></div>
                         </div>
                         <div class="row pb-3">
                             <div class="col-6">

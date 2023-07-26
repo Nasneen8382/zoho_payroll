@@ -684,38 +684,13 @@
             <span class="menu-title">Documents</span>
           </a>
         </li>
-
-
-        <li class="nav-item menu-items dropdown">
-          <a class="nav-link active dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="{% url 'payroll_list' %}">
             <span class="menu-icon">
-              <i class="mdi mdi-account"></i>
+              <i class="mdi mdi-file-outline"></i>
             </span>
             <span class="menu-title">Payroll</span>
-            
           </a>
-          <ul class="dropdown-menu">
-            <li>              
-              <div class="dropdown-item">
-                <a class="d-inline-block" style="color: #3f6391" href="{% url 'payroll_create' %}">Create Payroll</a>
-                <a class="d-inline-block" style="color: #3f6391;margin-left: 3px;" href="{% url 'payroll_create' %}">
-                  <span class="icon bg-light rounded-circle" style="text-align: right; width: 25px;">
-                    <i class="mdi mdi-plus"></i>
-                  </span>
-                </a>
-              </div> 
-              <div class="dropdown-item">
-                <a class="d-inline-block" style="color: #3f6391" href="{% url 'payroll_list' %}">List All</a>
-                <a class="d-inline-block" style="color: #3f6391;margin-left: 3px;" href="{% url 'payroll_list' %}">
-                  <span class="icon bg-light rounded-circle" style="text-align: right; width: 25px;">
-                    <i class="mdi mdi-plus"></i>
-                  </span>
-                </a>
-              </div> 
-                                                         
-            </li>               
-          </ul>
-
         </li>
 
 

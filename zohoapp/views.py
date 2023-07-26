@@ -6850,7 +6850,24 @@ def createpayroll(request):
         print(bank)
         return redirect('payroll_create')
     else:
-         return redirect('payroll_create')
+        return redirect('payroll_create')
 def payroll_list(request):
     p=Payroll.objects.all()
     return render(request,'payroll_list.html',{'pay':p})
+def payroll_delete(request,pid):
+    p=Payroll.objects.get(id=pid)
+    p.delete()
+    return redirect('payroll_list')
+def payroll_view(request,id):
+    payroll=Payroll.objects.all()
+    p=Payroll.objects.get(id=id)
+    return render(request,'payroll_view.html',{'pay':payroll,'p':p})
+
+def payroll_active(request,id):
+    p=Payroll.objects.get(id=id)
+    if p.status == 'Active':
+        p.status = 'Inactive'
+    else:
+        p.status = 'Active'
+    p.save()
+    return redirect('payroll_view')
