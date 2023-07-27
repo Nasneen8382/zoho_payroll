@@ -31,7 +31,7 @@
         color: rgb(255, 255, 255);
     }
 
-    .bold {
+    .table .bold {
         font-size: 1rem;
         font-weight: 600;
     }
@@ -43,6 +43,8 @@
     .overview .bar .btn {
         background-color: rgb(238, 164, 27);
         color: #ffff;
+        padding: .3rem .3rem;
+        align-items: center;
     }
 
     .overview .bar .btn:hover,
@@ -54,12 +56,22 @@
     .p-name {
         height: 2.5vw;
     }
+    #div-to-pdf label{
+        color: #5f5f5f;
+    }
+    #div-to-pdf{
+        padding-left: 2rem;
+    }
+    #div-to-pdf .bold{
+        font-size: 1.3rem;
+        /* font-weight: 600; */
+    }
 </style>
 <section>
     <div class="row p-3">
-        <div class="list col-4 py-3">
+        <div class="list col-4 col-lg-4 col-md-3  col-sm-2 py-3">
             <div class="header">
-                <h5>PAYROLL LIST</h5>
+                <h5>EMPLOYEES</h5>
             </div>
             <div class="searchbar">
                 <input class="form-control" type="text" placeholder="Search by Name" name="search" id="search"
@@ -82,7 +94,7 @@
                 {% endfor %}
             </table>
         </div>
-        <div class="overview col-8 py-3">
+        <div class="overview col-8 col-lg-8 col-md-9  col-sm-10 py-3">
             <div id="overview">
                 <div class="p-name">
                     <h3 class="px-2 pb-2" id="id1">{{p.name}}</h3>
@@ -93,24 +105,55 @@
                         <a class="btn mx-1" href="#home">Overview</a>
                     </div>
                     <div class="right">
-                        <a class="btn ml-1" href=""><i class="fas fa-edit"></i></a>
-                        <a class="btn ml-1" href=""><i class="fa fa-trash"></i></a>
+                        <a class="btn ml-1" href="{% url 'payroll_edit' p.id %}"><i class="fas fa-edit"></i></a>
+                        <a class="btn ml-1" href="" onclick="downloadDivContent()"><i class="mdi mdi-printer"></i></a>
+                        <a class="btn ml-1" href="{% url 'file_download' p.id %}"><i class="fas fa-download"></i></a>
+                        <a class="btn ml-1" href="{% url 'payroll_delete' p.id %}"><i class="fa fa-trash"></i></a>
                         <a class="btn ml-1" href=""><i class="far fa-comment"></i></a>
-                        <a class="btn ml-1" href=""><i class="fas fa-paperclip"></i></a>
-                        <a class="btn ml-1" href="" id="sts">Active</a>
+                        <label for="file-input" class="btn ml-1 border-0">
+                            <i class="fas fa-paperclip"></i>
+                        </label>
+                        <input id="file-input" type="file" name="file" style="display:none;" onchange="uploadFile()">
+                        <a class="btn ml-1" href="{% url 'payroll_active' p.id %}" id="sts">{{p.status}}</a>
                     </div>
                 </div>
                 <hr>
-                <div id="details-section">
-                    <div class="row">
-                        <div class="col-3">
-                            <label for="">name</label>
+                <div id="div-to-pdf">
+                    <div class="row px-2">
+                        <div class="col-7 col-lg-7 col-md-6 col-sm-12">
+                            <div class="row my-2">
+                                <div class="col-6">
+                                    <label for="">Name</label>
+                                    <p class="bold">{{p.name}}</p>
+                                </div>
+                                <div class="col-6">
+                                    <label for="">Alias</label>
+                                    <p class="bold">{{p.alias}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="">Email</label>
+                                    <p class="bold">{{p.email}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="">Phone Number</label>
+                                    <p class="bold">{{p.Phone}}</p>
+                                </div>
+                                <div class="col-6">
+                                    <label for="">Blood Group</label>
+                                    <p class="bold">{{p.blood}}</p>
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="col-4">
-                            <p class="bold">{{p.name}}</p>
-                        </div>
-                        <div class="col-5 p-3">
-                            <img class="imgfluid" src="{{p.image.url}}" alt="" height="200px" style="border-radius: 1rem;">
+                        <div class="col-5 col-lg-5 col-md-6 col-sm-12 p-3">
+                            <a href="{% url 'img_download' p.id %}" download>
+                                <img class="img-fluid" src="{{p.image.url}}" alt="" height="200px"
+                                    style="border-radius: 1rem;">
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -119,7 +162,72 @@
 
     </div>
 </section>
+<script>
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Check if the cookie name matches the CSRF cookie name
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    function uploadFile() {
+        const fileInput = document.getElementById("file-input");
+        const file = fileInput.files[0];
+        const csrfToken = getCookie('csrftoken')
 
+        const formData = new FormData();
+        formData.append("file", file);
+
+        fetch("/payroll_file/{{p.id}}", {
+            method: "POST",
+            headers: { 'X-CSRFToken': csrfToken },
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response from the server (if needed)
+                console.log(data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }
+
+
+    function downloadDivContent() {
+        var selectedArea = document.getElementById("div-to-pdf");
+
+
+        var printWindow = window.open('', 'PrintWindow', 'height=800,width=800');
+
+
+        printWindow.document.write('<html><head><title>Print Selected Area</title></head><body>' + selectedArea.innerHTML + '</body></html>');
+
+
+        printWindow.print();
+
+
+        printWindow.close();
+    }
+
+
+    // function downloadDivContent() {
+    //         var a = document.body.appendChild(
+    //            document.createElement("a")
+    //         );
+    //        a.download = "newfile.pdf";
+    //        a.href = "data:application/pdf," + document.getElementById("pdf").innerHTML;
+    //        a.click(); //Trigger a click on the element
+    //     }
+</script>
 
 
 

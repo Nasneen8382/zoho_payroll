@@ -326,6 +326,10 @@ urlpatterns = [
     path('payroll_delete/<int:pid>',views.payroll_delete,name='payroll_delete'),
     path('payroll_view/<int:id>',views.payroll_view,name='payroll_view'),
     path('payroll_active/<int:id>',views.payroll_active,name='payroll_active'),
+    path('payroll_file/<int:id>',views.payroll_file,name='payroll_file'),
+    path('img_download/<int:id>',views.img_download,name='img_download'),
+    path('file_download/<int:id>',views.file_download,name='file_download'),
+    path('payroll_edit/<int:pid>',views.payroll_edit,name='payroll_edit'),
 	
     
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),

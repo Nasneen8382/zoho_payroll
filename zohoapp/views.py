@@ -24,6 +24,7 @@ from django.template import Context, Template
 import tempfile
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
+from django.http import FileResponse
 
 
 def index(request):
@@ -6870,4 +6871,38 @@ def payroll_active(request,id):
     else:
         p.status = 'Active'
     p.save()
-    return redirect('payroll_view')
+    return redirect('payroll_view',id=id)
+
+def payroll_file(request,id):
+    if request.method == "POST" and request.FILES.get("file"):
+        print("hellooooooooooooooooo")
+        uploaded_file = request.FILES["file"]
+        p=Payroll.objects.get(id=id)
+        p.attachment=uploaded_file
+        # file_obj = Payroll(attachment=uploaded_file)
+        p.save()
+        print("hellooooooooooooooooo")
+        return JsonResponse({"status": "success", "message": "File uploaded successfully!"})
+    else:
+        return JsonResponse({"status": "error", "message": "No file uploaded."})
+    # 
+
+def img_download(request,id):
+    p=Payroll.objects.get(id=id)
+    image_file = p.image
+
+    response = FileResponse(image_file)
+    response['Content-Disposition'] = f'attachment; filename="{image_file.name}"'
+    # return redirect('payroll_view',id=id)
+    return response
+def file_download(request,id):
+    p=Payroll.objects.get(id=id)
+    file = p.attachment
+
+    response = FileResponse(file)
+    response['Content-Disposition'] = f'attachment; filename="{file.name}"'
+    return response
+def payroll_edit(request,pid):
+    p=Payroll.objects.get(id=pid)
+    return render(request,'payroll_edit.html',{'pay':p})
+

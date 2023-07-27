@@ -76,7 +76,7 @@
 <section>
     <div class="containerprof p-5">
         <div class="header pb-5">
-            <h3>CREATE EMPLOYEE</h3>
+            <h3>CREATE PAYROLL</h3>
             <hr>
         </div>
         <form method="POST" action="{% url 'createpayroll' %}" enctype="multipart/form-data" id="myForm">
@@ -87,19 +87,19 @@
                         <div class="col-6">
                             <label for="">Name</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control" name="name"></div>
+                        <div class="col-6"><input type="text" class="form-control" name="name" value="{{pay.name}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Alias</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control" name="alias"></div>
+                        <div class="col-6"><input type="text" class="form-control" name="alias" value="{{pay.alias}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Date of joining</label>
                         </div>
-                        <div class="col-6"><input type="date" class="form-control" name="joindate"></div>
+                        <div class="col-6"><input type="text" class="form-control" name="joindate" value="{{pay.joindate}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
@@ -149,19 +149,16 @@
                 <div class="image col-6 col-lg-6 col-md-6 col-sm-12">
 
                     <div class="row">
-                        <div class="col-5 text-center">
+                        <div class="col-6">
                             <label for="">Upload Image</label>
-                        </div>
-                        <div class="col-7">
-                            <label for="image-input">
-                                <img src="{% static 'images/payroll_img.png' %}" alt="" width="190px" height="200px"
-                                id="img">
-                            </label>
-                            <input id="image-input" type="file" name="file" class="form-control" accept="image/*"
-                                onchange="loadFile(event)" style="display: none;">
+                            <input type="file" name="file" class="form-control" accept="image/*"
+                                onchange="loadFile(event)">
 
                         </div>
-                        
+                        <div class="col-6">
+                            <img src="{% static 'images/payroll_img.png' %}" alt="" width="190px" height="200px"
+                                id="img">
+                        </div>
                     </div>
 
 

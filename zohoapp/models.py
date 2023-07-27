@@ -716,6 +716,7 @@ class Payroll(models.Model):
     PFN = models.IntegerField(null=True)
     PRAN = models.IntegerField(null=True)
     status=models.CharField(max_length=200,default='Active')
+    attachment=models.FileField(upload_to='doc/',null=True,default='')
 class Bankdetails(models.Model):
     acc_no = models.IntegerField()   
     IFSC = models.CharField(max_length=100)
