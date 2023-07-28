@@ -68,10 +68,8 @@
         position: relative;
 
     }
-
-    /* section{
-        
-    } */
+    
+    
 </style>
 <section>
     <div class="containerprof p-5">
@@ -101,7 +99,7 @@
                         </div>
                         <div class="col-6"><input type="text" class="form-control" name="joindate" value="{{pay.joindate}}"></div>
                     </div>
-                    <div class="row pb-3">
+                    <!-- <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Define salary details</label>
                         </div>
@@ -112,52 +110,32 @@
                                 <option value="Variable">Variable</option>
                             </select>
                         </div>
-                    </div>
-                    <div id="fixed" style="display: none;">
+                    </div> -->
+                    <div id="fixed">
                         <div class="row">
                             <div class="col-6">
                                 <label for="">Salary Amount</label>
                             </div>
-                            <div class="col-6"><input type="number" class="form-control" name="salary"></div>
+                            <div class="col-6"><input type="number" class="form-control" name="salary" value="{{pay.salary}}"></div>
                         </div>
 
                     </div>
-                    <div id="variable" style="display: none;">
-                        <div class="row pb-3">
-                            <div class="col-6">
-                                <label for="">Amount per Hour</label>
-                            </div>
-                            <div class="col-6"><input type="number" class="form-control" name="amnt" id="amnt"></div>
-                        </div>
-                        <div class="row pb-3">
-                            <div class="col-6">
-                                <label for="">Total working Hours</label>
-                            </div>
-                            <div class="col-6"><input type="number" class="form-control" name="hours" id="hours"
-                                    onkeyup="calculateAmount()"></div>
-                        </div>
-                        <div class="row pb-3">
-                            <div class="col-6">
-                                <label for="">Salary Amount</label>
-                            </div>
-                            <div class="col-6"><input type="number" class="form-control" name="salary" id="salary">
-                            </div>
-                        </div>
-                    </div>
-
+                    
                 </div>
                 <div class="image col-6 col-lg-6 col-md-6 col-sm-12">
 
                     <div class="row">
-                        <div class="col-6">
-                            <label for="">Upload Image</label>
-                            <input type="file" name="file" class="form-control" accept="image/*"
-                                onchange="loadFile(event)">
-
+                        <div class="col-5 text-center">
+                            <label for="">Image</label>
                         </div>
-                        <div class="col-6">
-                            <img src="{% static 'images/payroll_img.png' %}" alt="" width="190px" height="200px"
-                                id="img">
+                        <div class="col-7 imgedit">
+                            <label for="image-input">
+                                <img src="{{ pay.image.url }}" alt="" width="190px" height="200px"
+                                    id="img" style="background-color: rgba(156, 156, 156, 0.267); border-radius: 30px;">
+                                </label>
+                            <input id="image-input" type="file" name="file" class="form-control" accept="image/*"
+                                onchange="loadFile(event)" style="display: none;">
+
                         </div>
                     </div>
 
@@ -182,115 +160,99 @@
                         <div class="col-6">
                             <label for="">Employee Number</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control" name="empnum"></div>
+                        <div class="col-6"><input type="number" class="form-control" name="empnum" value="{{pay.emp_number}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Designation</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control" name="designation"></div>
+                        <div class="col-6"><input type="text" class="form-control" name="designation" value="{{pay.designation}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Location</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control" name="location"></div>
+                        <div class="col-6"><input type="text" class="form-control" name="location" value="{{pay.location}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Gender</label>
                         </div>
                         <div class="col-6">
-                            <select class="form-control" name="gender" id="dropId3">
-                                <option value="">Select</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Transgender">Transgender</option>
-                            </select>
+                            <input type="text" name="gender" class="form-control" value="{{pay.gender}}">
                         </div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Date of Birth</label>
                         </div>
-                        <div class="col-6"><input type="date" class="form-control" name="dob"></div>
+                        <div class="col-6"><input type="text" class="form-control" name="dob" value="{{pay.dob}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Blood Group</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control" name="blood"></div>
+                        <div class="col-6"><input type="text" class="form-control" name="blood" value="{{pay.blood}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Father's Name/Mother's Name</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control" name="fm_name"></div>
+                        <div class="col-6"><input type="text" class="form-control" name="fm_name" value="{{pay.parent}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Spouse's Name</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control" name="s_name"></div>
+                        <div class="col-6"><input type="text" class="form-control" name="s_name" value="{{pay.spouse_name}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Address</label>
                         </div>
-                        <div class="col-6"><textarea class="form-control" name="address"></textarea></div>
+                        <div class="col-6"><textarea class="form-control" name="address">{{pay.address}}</textarea></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Phone Number</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control" name="phone"></div>
+                        <div class="col-6"><input type="number" class="form-control" name="phone" value="{{pay.phone}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Email</label>
                         </div>
-                        <div class="col-6"><input type="email" class="form-control" name="email"></div>
+                        <div class="col-6"><input type="email" class="form-control" name="email" value="{{pay.email}}"></div>
                     </div>
                 </div>
                 <div class="col-6 col-lg-6 col-md-6 col-sm-12 pt-3">
-                    <div class="row pb-4">
-                        <div class="col-6">
-                            <label for="">Provide Bank Details</label>
-                        </div>
-                        <div class="col-6"><select class="form-control" name="bank" id="dropId"
-                                onchange="bankdisplay()">
-                                <option value="">Select</option>
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="bank" id="bank" style="display: none;">
+                    {% for bank in b %}
+                    <div class="bank" id="bank">
                         <h4 class="text-center py-2">Bank information</h4>
                         <div class="row pb-3">
                             <div class="col-6">
                                 <label for="">Account Number</label>
                             </div>
-                            <div class="col-6"><input type="number" class="form-control" name="acc_no"></div>
+                            <div class="col-6"><input type="number" class="form-control" name="acc_no" value="{{bank.acc_no}}"></div>
                         </div>
                         <div class="row pb-3">
                             <div class="col-6">
                                 <label for="">IFSC</label>
                             </div>
-                            <div class="col-6"><input type="text" class="form-control" name="ifsc"
+                            <div class="col-6"><input type="text" class="form-control" name="ifsc" value="{{bank.IFSC}}"
                                     style="text-transform:uppercase"></div>
                         </div>
                         <div class="row pb-3">
                             <div class="col-6">
                                 <label for="">Name of Bank</label>
                             </div>
-                            <div class="col-6"><input type="text" class="form-control" name="b_name"></div>
+                            <div class="col-6"><input type="text" class="form-control" name="b_name"  value="{{bank.bank_name}}"></div>
                         </div>
                         <div class="row pb-3">
                             <div class="col-6">
                                 <label for="">Branch Name</label>
                             </div>
-                            <div class="col-6"><input type="text" class="form-control" name="branch"></div>
+                            <div class="col-6"><input type="text" class="form-control" name="branch"  value="{{bank.branch}}"></div>
                         </div>
                         <h5 class="text-center py-1">For Banking</h5>
                         <div class="row pb-3">
@@ -298,44 +260,41 @@
                                 <label for="">Transaction Type</label>
                             </div>
                             <div class="col-6">
-                                <select class="form-control" name="ttype" id="ttype">
-                                    <option value="Yes">ATM</option>
-                                    <option value="No">Cash</option>
-                                    <option value="No">Check</option>
-                                </select>
+                                <input type="text" class="form-control" name="ttype"  value="{{bank.transaction_type}}">
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
                     <h4 class="text-center py-2">Statutary information</h4>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Income Tax Number</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control" name="itn"></div>
+                        <div class="col-6"><input type="number" class="form-control" name="itn" value="{{pay.ITN}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Aadhar Number</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control" name="an"></div>
+                        <div class="col-6"><input type="number" class="form-control" name="an" value="{{pay.Aadhar}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Universal Account Number(UAN)</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control" name="uan"></div>
+                        <div class="col-6"><input type="number" class="form-control" name="uan" value="{{pay.UAN}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">PF Account Number(PFN)</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control" name="pfn"></div>
+                        <div class="col-6"><input type="number" class="form-control" name="pfn" value="{{pay.PFN}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">PR Account Number(PRAN)</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control" name="pran"></div>
+                        <div class="col-6"><input type="text" class="form-control" name="pran" value="{{pay.PRAN}}"></div>
                     </div>
                 </div>
             </div>

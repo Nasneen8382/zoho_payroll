@@ -22,9 +22,11 @@
         background-color: rgb(73, 72, 72);
         color: white;
         border: none;
+        /* height: 5vw; */
     }
 
-    input[type="text"],.gen-info textarea {
+    input[type="text"],
+    .gen-info textarea {
 
         text-transform: capitalize;
 
@@ -40,6 +42,7 @@
     .gen-info select:focus {
         background: transparent;
         color: white;
+        
     }
 
     .gen-info .left {
@@ -69,9 +72,20 @@
 
     }
 
-    /* section{
+    .input-container {
+        position: relative;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .validation-tick {
+        color: green;
+        position: absolute;
         
-    } */
+        top: .5rem;
+        left: 80%;
+        font-size: 1.2rem;
+    }
 </style>
 <section>
     <div class="containerprof p-5">
@@ -87,7 +101,10 @@
                         <div class="col-6">
                             <label for="">Name</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control" name="name"></div>
+                        <div class="input-container col-6">
+                            <input type="text" class="form-control" name="name">
+                            <span class="validation-tick px-1" id="usernameTick">&#10004;</span>
+                        </div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
@@ -113,12 +130,13 @@
                             </select>
                         </div>
                     </div>
+
                     <div id="fixed" style="display: none;">
-                        <div class="row">
+                        <div class="row pb-3">
                             <div class="col-6">
                                 <label for="">Salary Amount</label>
                             </div>
-                            <div class="col-6"><input type="number" class="form-control" name="salary"></div>
+                            <div class="col-6"><input type="number" class="form-control" name="fsalary"></div>
                         </div>
 
                     </div>
@@ -140,28 +158,29 @@
                             <div class="col-6">
                                 <label for="">Salary Amount</label>
                             </div>
-                            <div class="col-6"><input type="number" class="form-control" name="salary" id="salary">
+                            <div class="col-6"><input type="number" class="form-control" name="salary" id="vsalary">
                             </div>
                         </div>
                     </div>
+                    
 
                 </div>
                 <div class="image col-6 col-lg-6 col-md-6 col-sm-12">
 
                     <div class="row">
-                        <div class="col-5 text-center">
+                        <div class="col-5 col-lg-5 col-md-10 col-sm-12 text-center">
                             <label for="">Upload Image</label>
                         </div>
-                        <div class="col-7">
+                        <div class="col-7 col-lg-7 col-md-10 col-sm-12">
                             <label for="image-input">
-                                <img src="{% static 'images/payroll_img.png' %}" alt="" width="190px" height="200px"
-                                id="img">
+                                <img class="img-fluid" src="{% static 'images/payrollimg.png' %}" alt="" width="190px" height="200px"
+                                    id="img" style="background-color: rgba(156, 156, 156, 0.267); border-radius: 30px;">
                             </label>
                             <input id="image-input" type="file" name="file" class="form-control" accept="image/*"
                                 onchange="loadFile(event)" style="display: none;">
 
                         </div>
-                        
+
                     </div>
 
 
@@ -178,6 +197,7 @@
 
                 </script>
             </div>
+
             <div class="gen-info row pt-5">
                 <div class="left col-6 col-lg-6 col-md-6 col-sm-12">
                     <h4 class="text-center py-2">General information</h4>
@@ -254,6 +274,14 @@
                         </div>
                         <div class="col-6"><input type="email" class="form-control" name="email"></div>
                     </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Attachments</label>
+                        </div>
+                        <div class="col-6">
+                            <input id="file-upload" type="file" name="attach" style="background: transparent;">
+                        </div>
+                    </div>
                 </div>
                 <div class="col-6 col-lg-6 col-md-6 col-sm-12 pt-3">
                     <div class="row pb-4">
@@ -302,12 +330,54 @@
                             </div>
                             <div class="col-6">
                                 <select class="form-control" name="ttype" id="ttype">
-                                    <option value="Yes">ATM</option>
-                                    <option value="No">Cash</option>
-                                    <option value="No">Check</option>
+                                    <option value="ATM">ATM</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="Check">Check</option>
                                 </select>
                             </div>
                         </div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">TDS Applicable</label>
+                        </div>
+                        <div class="col-6">
+                            <select class="form-control" name="tds" id="tds" onchange="tdsFunction()">
+                                <option value="">Select</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="tds-div" style="display: none;">
+                        <div class="row pb-3">
+                            <div class="col-6">
+                                <label for="">Percentage/Amount</label>
+                            </div>
+                            <div class="col-6">
+                                <select class="form-control" name="pora" id="pora" onchange="tdsFunction2()">
+                                    <option value="">Select</option>
+                                    <option value="Percentage">Percentage</option>
+                                    <option value="Amount">Amount</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="p" style="display: none;">
+                            <div class="row pb-3">
+                                <div class="col-6">
+                                    <label for="">Percentage</label>
+                                </div>
+                                <div class="col-6"><input type="number" class="form-control" name="pcnt" id="pcnt">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="a" style="display: none;">
+                        <div class="row pb-3" >
+                            <div class="col-6">
+                                <label for="">Amount</label>
+                            </div>
+                            <div class="col-6"><input type="number" class="form-control" name="amnt" id="amnt"></div>
+                        </div></div>
                     </div>
                     <h4 class="text-center py-2">Statutary information</h4>
                     <div class="row pb-3">
@@ -342,6 +412,7 @@
                     </div>
                 </div>
             </div>
+
             <hr>
             <div class="action-button">
                 <button class="btn btn-primary" type="submit">Add</button>
@@ -366,6 +437,14 @@
 </section>
 
 <script>
+    // var loadAttachment = function (event) {
+    //                     var reader = new FileReader();
+    //                     reader.onload = function () {
+    //                         var output = document.getElementById('img2');
+    //                         output.innerHTML = reader.result.trim;
+    //                     };
+    //                     reader.readAsDataURL(event.target.files[0]);
+    //                 };
     function bankdisplay() {
         var e = document.getElementById("dropId").value;
 
@@ -394,7 +473,32 @@
         var a = document.getElementById("amnt").value;
         var h = document.getElementById("hours").value;
         var tot = h * a;
-        document.getElementById('salary').value = tot;
-    }  
+        document.getElementById('vsalary').value = tot;
+    }
+
+    function tdsFunction() {
+        var e = document.getElementById("tds");
+        var sal = e.value;
+        if (sal == '1') {
+            document.getElementById("tds-div").style.display = 'block'
+        }
+        else {
+            document.getElementById("tds-div").style.display = 'none'
+        }
+
+    }
+    function tdsFunction2() {
+        var e = document.getElementById("pora");
+        var sal = e.value;
+        if (sal == 'Percentage') {
+            document.getElementById("p").style.display = 'block';
+            document.getElementById("a").style.display = 'none';
+        }
+        else if (sal == 'Amount') {
+            document.getElementById("a").style.display = 'block';
+            document.getElementById("p").style.display = 'none'
+        }
+
+    }
 </script>
 {% endblock %}

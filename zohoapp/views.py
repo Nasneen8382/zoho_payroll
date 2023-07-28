@@ -6815,7 +6815,10 @@ def createpayroll(request):
         alias=request.POST['alias']
         joindate=request.POST['joindate']
         saltype=request.POST['saltype']
-        salary=request.POST['salary']
+        if (saltype == 'Fixed'):
+            salary=request.POST['fsalary']
+        else:
+            salary=request.POST['vsalary']
         image=request.FILES.get('file')
         empnum=request.POST['empnum']
         designation = request.POST['designation']
@@ -6827,7 +6830,17 @@ def createpayroll(request):
         sname=request.POST['s_name']        
         address=request.POST['address'] 
         phone=request.POST['phone']
-        email=request.POST['email']       
+        email=request.POST['email']
+        attach=request.FILES.get('attach')       
+        isdts=request.POST['tds']
+        if isdts == '1':
+            istdsval=request.POST['pora']
+            if istdsval == 'Percentage':
+                tds=request.POST['pcnt']
+            elif istdsval == 'Amount':
+                tds=request.POST['amnt']
+        else:
+            istdsval='No'
         itn=request.POST['itn']
         an=request.POST['an']        
         uan=request.POST['uan'] 
@@ -6835,11 +6848,11 @@ def createpayroll(request):
         pran=request.POST['pran']
         payroll= Payroll(name=name,alias=alias,image=image,joindate=joindate,salary_type=saltype,salary=salary,emp_number=empnum,designation=designation,location=location,
                          gender=gender,dob=dob,blood=blood,parent=fmname,spouse_name=sname,address=address,Phone=phone,
-                         email=email,ITN=itn,Aadhar=an,UAN=uan,PFN=pfn,PRAN=pran)
+                         email=email,ITN=itn,Aadhar=an,UAN=uan,PFN=pfn,PRAN=pran,attachment=attach,isTDS=istdsval,TDS=tds)
         payroll.save()
 
         bank=request.POST['bank']
-        if(bank== 1):
+        if(bank == '1'):
             accno=request.POST['acc_no']       
             ifsc=request.POST['ifsc']       
             bname=request.POST['b_name']       
@@ -6904,5 +6917,9 @@ def file_download(request,id):
     return response
 def payroll_edit(request,pid):
     p=Payroll.objects.get(id=pid)
-    return render(request,'payroll_edit.html',{'pay':p})
+    print(p)
+    
+    b=Bankdetails.objects.filter(payroll=p)
+    print(b)
+    return render(request,'payroll_edit.html',{'pay':p,'b':b})
 
