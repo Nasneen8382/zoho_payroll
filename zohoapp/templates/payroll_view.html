@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-{% load static %}
+<!-- {% load static %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script> -->
+
 <style>
     * {
 
@@ -56,14 +59,17 @@
     .p-name {
         height: 2.5vw;
     }
-    #div-to-pdf label{
+
+    #div-to-pdf label {
         color: #5f5f5f;
     }
-    #div-to-pdf{
-        padding-left: 2rem;
+
+    #div-to-pdf {
+        padding: 0 1rem;
     }
-    #div-to-pdf .bold{
-        font-size: 1.3rem;
+
+    #div-to-pdf .bold {
+        font-size: 1rem;
         /* font-weight: 600; */
     }
 </style>
@@ -106,7 +112,7 @@
                     </div>
                     <div class="right">
                         <a class="btn ml-1" href="{% url 'payroll_edit' p.id %}"><i class="fas fa-edit"></i></a>
-                        <a class="btn ml-1" href="" onclick="downloadDivContent()"><i class="mdi mdi-printer"></i></a>
+                        <a class="btn ml-1" href="" onclick="pdfDownload()"><i class="mdi mdi-printer"></i></a>
                         <a class="btn ml-1" href="{% url 'file_download' p.id %}"><i class="fas fa-download"></i></a>
                         <a class="btn ml-1" href="{% url 'payroll_delete' p.id %}"><i class="fa fa-trash"></i></a>
                         <a class="btn ml-1" href=""><i class="far fa-comment"></i></a>
@@ -118,9 +124,9 @@
                     </div>
                 </div>
                 <hr>
-                <div id="div-to-pdf">
+                <div id="div-to-pdf" class="div-to-pdf">
                     <div class="row px-2">
-                        <div class="col-7 col-lg-7 col-md-6 col-sm-12">
+                        <div class="col-8 col-lg-8 col-md-6 col-sm-12">
                             <div class="row my-2">
                                 <div class="col-6">
                                     <label for="">Name</label>
@@ -131,37 +137,175 @@
                                     <p class="bold">{{p.alias}}</p>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row my-2">
+                                <div class="col-6">
+                                    <label for="">Designation</label>
+                                    <p class="bold">{{p.designation}}</p>
+                                </div>
+                                <div class="col-6">
+                                    <label for="">Gender</label>
+                                    <p class="bold">{{p.joindate}}</p>
+                                </div>
+                            </div>
+                            <div class="row  my-2">
                                 <div class="col-6">
                                     <label for="">Email</label>
                                     <p class="bold">{{p.email}}</p>
                                 </div>
+                                <div class="col-6">
+                                    <label for="">Join date</label>
+                                    <p class="bold">{{p.gender}}</p>
+                                </div>
                             </div>
-                            <div class="row">
+                            <div class="row  my-2">
                                 <div class="col-6">
                                     <label for="">Phone Number</label>
                                     <p class="bold">{{p.Phone}}</p>
                                 </div>
                                 <div class="col-6">
-                                    <label for="">Blood Group</label>
-                                    <p class="bold">{{p.blood}}</p>
+                                    <label for="">Date of Birth</label>
+                                    <p class="bold">{{p.dob}}</p>
                                 </div>
                             </div>
 
                         </div>
-                        <div class="col-5 col-lg-5 col-md-6 col-sm-12 p-3">
+                        <div class="col-4 col-lg-4 col-md-6 col-sm-12 p-3">
                             <a href="{% url 'img_download' p.id %}" download>
                                 <img class="img-fluid" src="{{p.image.url}}" alt="" height="200px"
                                     style="border-radius: 1rem;">
                             </a>
                         </div>
                     </div>
+                    <div class="row px-2 my-2">
+                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
+                            <label for="">Employee Number</label>
+                            <p class="bold">{{p.emp_number}}</p>
+                        </div>
+                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
+                            <label for="">Salary</label>
+                            <p class="bold">{{p.salary}}</p>
+                        </div>
+                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
+                            <label for="">Location</label>
+                            <p class="bold">{{p.location}}</p>
+                        </div>
+                    </div>
+                    <div class="row px-2 my-2">
+                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
+                            <label for="">Blood Group</label>
+                            <p class="bold">{{p.blood}}</p>
+                        </div>
+                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
+                            <label for="">Mother/Father Name</label>
+                            <p class="bold">{{p.parent}}</p>
+                        </div>
+                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
+                            <label for="">Spouse Name</label>
+                            <p class="bold">{{p.spouse_name}}</p>
+                        </div>
+                    </div>
+                    <div class="row px-2 my-2">
+                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
+                            <label for="">Address</label>
+                            <p class="bold">{{p.address}}</p>
+                        </div>
+
+                    </div>
+                    <h4 class="text-center py-2">Statutary information</h4>
+                    <hr>
+                    <div class="row px-2 my-2">
+                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
+                            <label for="">Aadhar Number</label>
+                            <p class="bold">{{p.Aadhar}}</p>
+                        </div>
+                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
+                            <label for="">Income Tax Number</label>
+                            <p class="bold">{{p.ITN}}</p>
+                        </div>
+                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
+                            <label for="">Universal Account Number(UAN)</label>
+                            <p class="bold">{{p.UAN}}</p>
+                        </div>
+                    </div>
+                    <div class="row px-2 my-2">
+                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
+                            <label for="">PF Account Number(PFN)</label>
+                            <p class="bold">{{p.PFN}}</p>
+                        </div>
+                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
+                            <label for="">PR Account Number(PRAN)</label>
+                            <p class="bold">{{p.PRAN}}</p>
+                        </div>
+                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
+                            {% if p.isTDS == 'Percentage' %}
+                            <label for="">TDS %</label>
+                            <p class="bold">{{p.TDS}}</p>
+                            {% elif p.isTDS == 'Amount' %}
+                            <label for="">TDS amount</label>
+                            <p class="bold">{{p.TDS}}</p>
+                            {% else %}
+                            <label for="">TDS </label>
+                            <p class="bold">nill</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% for bank in b %}
+                    <div class="bank-div"
+                        style="background-color: rgba(131, 110, 53, 0.479); border-radius: 20px; padding: 1rem;">
+                        <h4 class="text-center py-2">Bank Details</h4>
+                        <hr>
+                        <div class="row px-2 my-2">
+                            <div class="col-6 col-lg-6 col-md-6 col-sm-12">
+                                <label for="">Account NUmber</label>
+                                <p class="bold">{{bank.acc_no}}</p>
+                            </div>
+                            <div class="col-6 col-lg-6 col-md-6 col-sm-12">
+                                <label for="">Bank</label>
+                                <p class="bold">{{bank.bank_name}}</p>
+                            </div>
+                        </div>
+                        <div class="row px-2 my-2">
+                            <div class="col-6 col-lg-6 col-md-6 col-sm-12">
+                                <label for="">IFSC</label>
+                                <p class="bold">{{bank.IFSC}}</p>
+                            </div>
+                            <div class="col-6 col-lg-6 col-md-6 col-sm-12">
+                                <label for="">Branch Name</label>
+                                <p class="bold">{{bank.branch}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
 
     </div>
 </section>
+<script>
+    // async function pdfDownload(){
+    //     const pdfElement = document.getElementById("div-to-pdf");
+    //     const doc = new jsPDF('l','pt');
+    //     await html2canvas(pdfElement,{
+    //         width:550
+    //     }).then((canvas) =>{
+    //         doc.addImage(canvas.toDataURL("image/png"), 'PNG',5,5,500,200);
+    //     })
+    //     doc.save("document.pdf")
+
+        // domtoimage.toPng(pdfElement)
+        //     .then(function (dataUrl) {
+        //         doc.addImage(dataUrl, 'PNG', 10, 10, 190, 150); 
+        //         // You can adjust the position and size of the image
+        //         doc.save("output.pdf");
+        //     })
+        //     .catch(function (error) {
+        //         console.error('Error generating PDF: ', error);
+        //     });
+    // }
+    
+</script>
+
 <script>
     function getCookie(name) {
         var cookieValue = null;
@@ -202,7 +346,21 @@
     }
 
 
-    function downloadDivContent() {
+    function pdfDownload(){
+    //     const pdfElement = document.querySelector(".div-to-pdf");
+    //     const doc = new jsPDF();
+    //     const content = pdfElement;
+    //     const options = {
+    //         margin: 10,
+    //         filename: "output.pdf",
+    //         image: { type: "jpeg", quality: 0.98 },
+    //         html2canvas: { scale: 2 },
+    //         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+    //     };
+
+    //     doc.html(content, options);
+    //     doc.save();
+    // }
         var selectedArea = document.getElementById("div-to-pdf");
 
 
@@ -212,7 +370,7 @@
         printWindow.document.write('<html><head><title>Print Selected Area</title></head><body>' + selectedArea.innerHTML + '</body></html>');
 
 
-        printWindow.print();
+        printWindow.print();    
 
 
         printWindow.close();
@@ -260,6 +418,7 @@
         }
     }
 </script>
+
 {% endblock %}
 
 <!-- edit com attach dele active/inactive -->

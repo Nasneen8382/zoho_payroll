@@ -6809,6 +6809,46 @@ def payment_delete_details(request):
 
 def payroll_create(request):
     return render(request,'payroll_create.html')
+def editpayroll(request,id):
+    p=Payroll.objects.get(id=id)
+    
+    if request.method=='POST':
+        p.name=request.POST['name']
+        p.alias=request.POST['alias']
+        p.joindate=request.POST['joindate']
+        p.salary=request.POST['salary']   
+        # p.image=request.FILES.get('file')
+        p.emp_number = request.POST['empnum']
+        p.designation = request.POST['designation']
+        p.location=request.POST['location']
+        p.gender=request.POST['gender']
+        p.dob=request.POST['dob']
+        p.blood=request.POST['blood']
+        p.parent=request.POST['fm_name']
+        p.spouse_name=request.POST['s_name']        
+        p.address=request.POST['address'] 
+        p.Phone=request.POST['phone']
+        p.email=request.POST['email']
+        p.ITN=request.POST['itn']
+        p.Aadhar=request.POST['an']
+        p.UAN=request.POST['uan']
+        p.PFN=request.POST['pfn']
+        p.PRAN=request.POST['pran']
+        p.TDS=request.POST['tds']
+        p.save()
+        
+        if Bankdetails.objects.get(payroll=p).exists():
+            b.acc_no=request.POST['acc_no']  
+            b.IFSC=request.POST['ifsc']
+            b.bank_name=request.POST['b_name']
+            b.branch=request.POST['branch']
+            b.transaction_type=request.POST['ttype']
+            b.save()
+        else:
+            return redirect('payroll_view',id=id)
+    else:
+        return redirect('payroll_view',id=id)
+
 def createpayroll(request):
     if request.method=='POST':
         name=request.POST['name']
@@ -6841,11 +6881,16 @@ def createpayroll(request):
                 tds=request.POST['amnt']
         else:
             istdsval='No'
+            tds = 0
         itn=request.POST['itn']
         an=request.POST['an']        
         uan=request.POST['uan'] 
         pfn=request.POST['pfn']
         pran=request.POST['pran']
+        print(itn)
+        print(uan)
+        print(pfn)
+        print(pran)
         payroll= Payroll(name=name,alias=alias,image=image,joindate=joindate,salary_type=saltype,salary=salary,emp_number=empnum,designation=designation,location=location,
                          gender=gender,dob=dob,blood=blood,parent=fmname,spouse_name=sname,address=address,Phone=phone,
                          email=email,ITN=itn,Aadhar=an,UAN=uan,PFN=pfn,PRAN=pran,attachment=attach,isTDS=istdsval,TDS=tds)
@@ -6875,7 +6920,8 @@ def payroll_delete(request,pid):
 def payroll_view(request,id):
     payroll=Payroll.objects.all()
     p=Payroll.objects.get(id=id)
-    return render(request,'payroll_view.html',{'pay':payroll,'p':p})
+    b=Bankdetails.objects.filter(payroll=p)
+    return render(request,'payroll_view.html',{'pay':payroll,'p':p,'b':b})
 
 def payroll_active(request,id):
     p=Payroll.objects.get(id=id)

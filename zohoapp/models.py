@@ -717,7 +717,7 @@ class Payroll(models.Model):
     PRAN = models.IntegerField(null=True)
     status=models.CharField(max_length=200,default='Active')
     isTDS=models.CharField(max_length=200,null=True)
-    TDS = models.IntegerField(null=True)
+    TDS = models.IntegerField(null=True,default=0)
     attachment=models.FileField(upload_to='doc/',null=True,default='')
 class Bankdetails(models.Model):
     acc_no = models.IntegerField()   
