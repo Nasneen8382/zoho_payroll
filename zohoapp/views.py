@@ -25,6 +25,9 @@ import tempfile
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
 from django.http import FileResponse
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from reportlab.lib.utils import ImageReader
 
 
 def index(request):
@@ -6837,17 +6840,18 @@ def editpayroll(request,id):
         p.TDS=request.POST['tds']
         p.save()
         
-        if Bankdetails.objects.get(payroll=p).exists():
+        if Bankdetails.objects.filter(payroll=p).exists():
+            b=Bankdetails.objects.get(payroll=p)
             b.acc_no=request.POST['acc_no']  
             b.IFSC=request.POST['ifsc']
             b.bank_name=request.POST['b_name']
             b.branch=request.POST['branch']
             b.transaction_type=request.POST['ttype']
             b.save()
-        else:
-            return redirect('payroll_view',id=id)
+        
     else:
         return redirect('payroll_view',id=id)
+    return redirect('payroll_view',id=id)
 
 def createpayroll(request):
     if request.method=='POST':
@@ -6920,8 +6924,9 @@ def payroll_delete(request,pid):
 def payroll_view(request,id):
     payroll=Payroll.objects.all()
     p=Payroll.objects.get(id=id)
+    com=Commentmodel.objects.filter(payroll=p)
     b=Bankdetails.objects.filter(payroll=p)
-    return render(request,'payroll_view.html',{'pay':payroll,'p':p,'b':b})
+    return render(request,'payroll_view.html',{'pay':payroll,'p':p,'b':b,'com':com})
 
 def payroll_active(request,id):
     p=Payroll.objects.get(id=id)
@@ -6969,3 +6974,17 @@ def payroll_edit(request,pid):
     print(b)
     return render(request,'payroll_edit.html',{'pay':p,'b':b})
 
+def add_payrollcomment(request,pid):
+    p=Payroll.objects.get(id=pid)
+    if request.method== 'POST':
+        comment=request.POST['comments']
+        c= Commentmodel(comment=comment,payroll=p)
+        c.save()
+    return redirect('payroll_view',id=pid)
+def delete_payrollcomment(request,cid,pid):
+    try:
+        comment = Commentmodel.objects.get(id=cid,payroll=pid)
+        comment.delete()
+        return redirect('payroll_view', pid)
+    except:
+        return redirect('payroll_view', pid)

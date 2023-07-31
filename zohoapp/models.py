@@ -726,3 +726,6 @@ class Bankdetails(models.Model):
     branch = models.CharField(max_length=100)
     transaction_type = models.CharField(max_length=100)
     payroll=models.ForeignKey(Payroll,on_delete=models.CASCADE,default='')
+class Commentmodel(models.Model):
+    comment=models.CharField(max_length=300)
+    payroll=models.ForeignKey(Payroll,on_delete=models.CASCADE)
