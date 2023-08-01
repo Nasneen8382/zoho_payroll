@@ -137,6 +137,7 @@
 </script>
 <script>
     function sortTable(columnIndex) {
+        let sortAscending = false
         const table = document.getElementById("mytable");
         const rows = Array.from(table.rows).slice(1); // Exclude the header row
 
@@ -162,9 +163,10 @@
         rows.forEach(row => table.appendChild(row));
         sortAscending = !sortAscending;
     }
-    let sortAscending = true; // Flag to indicate the sorting order
+    ; // Flag to indicate the sorting order
 
 function rsortTable(columnIndex) {
+    let sortAscending = false
     const table = document.getElementById("mytable");
     const rows = Array.from(table.rows).slice(1); // Exclude the header row
 

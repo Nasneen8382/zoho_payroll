@@ -6810,6 +6810,10 @@ def payment_delete_details(request):
     payment.delete()
     return redirect('paymentmethod')
 
+
+
+    
+
 def payroll_create(request):
     return render(request,'payroll_create.html')
 def editpayroll(request,id):
@@ -6962,7 +6966,6 @@ def img_download(request,id):
 def file_download(request,id):
     p=Payroll.objects.get(id=id)
     file = p.attachment
-
     response = FileResponse(file)
     response['Content-Disposition'] = f'attachment; filename="{file.name}"'
     return response
@@ -6988,3 +6991,4 @@ def delete_payrollcomment(request,cid,pid):
         return redirect('payroll_view', pid)
     except:
         return redirect('payroll_view', pid)
+
