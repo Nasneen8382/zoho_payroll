@@ -693,13 +693,15 @@ class Comments_item(models.Model):
     content = models.TextField(max_length=255,null=True,blank=True)
 
 class Payroll(models.Model):
-    name = models.CharField(max_length=100)
+    title = models.CharField(max_length=100,null=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100,null=True)
     alias = models.CharField(max_length=100)
     image=models.ImageField(upload_to="image/", null=True)
     joindate=models.DateField()
     salary_type = models.CharField(max_length=100, default='Fixed')
     salary = models.IntegerField(null=True,blank=True)
-    emp_number = models.IntegerField(null=True,blank=True)
+    emp_number = models.CharField(max_length=100,null=True)
     designation = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
     gender = models.CharField(max_length=100)
@@ -708,7 +710,9 @@ class Payroll(models.Model):
     parent = models.CharField(max_length=100)
     spouse_name = models.CharField(max_length=100)
     address = models.CharField(max_length=250)
+    permanent_address = models.CharField(max_length=250,null=True)
     Phone = models.IntegerField()
+    emergency_phone = models.IntegerField(null=True)
     email = models.EmailField(max_length=255,null=True)
     ITN = models.IntegerField(null=True)
     Aadhar = models.IntegerField(null=True)
@@ -718,7 +722,6 @@ class Payroll(models.Model):
     status=models.CharField(max_length=200,default='Active')
     isTDS=models.CharField(max_length=200,null=True)
     TDS = models.IntegerField(null=True,default=0)
-    attachment=models.FileField(upload_to='doc/',null=True,default='')
 class Bankdetails(models.Model):
     acc_no = models.IntegerField()   
     IFSC = models.CharField(max_length=100)
@@ -728,4 +731,7 @@ class Bankdetails(models.Model):
     payroll=models.ForeignKey(Payroll,on_delete=models.CASCADE,default='')
 class Commentmodel(models.Model):
     comment=models.CharField(max_length=300)
+    payroll=models.ForeignKey(Payroll,on_delete=models.CASCADE)
+class Payrollfiles(models.Model):
+    attachment=models.FileField(upload_to='doc/',null=True)
     payroll=models.ForeignKey(Payroll,on_delete=models.CASCADE)

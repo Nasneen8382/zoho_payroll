@@ -25,9 +25,7 @@ import tempfile
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
 from django.http import FileResponse
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-from reportlab.lib.utils import ImageReader
+
 
 
 def index(request):
@@ -6812,7 +6810,7 @@ def payment_delete_details(request):
 
 
 
-    
+
 
 def payroll_create(request):
     return render(request,'payroll_create.html')
@@ -6859,7 +6857,9 @@ def editpayroll(request,id):
 
 def createpayroll(request):
     if request.method=='POST':
-        name=request.POST['name']
+        title=request.POST['title']
+        fname=request.POST['fname']
+        lname=request.POST['lname']
         alias=request.POST['alias']
         joindate=request.POST['joindate']
         saltype=request.POST['saltype']
@@ -6876,10 +6876,11 @@ def createpayroll(request):
         blood=request.POST['blood']
         fmname=request.POST['fm_name']
         sname=request.POST['s_name']        
-        address=request.POST['address'] 
+        address=request.POST['address']
+        paddress=request.POST['paddress'] 
         phone=request.POST['phone']
+        ephone=request.POST['ephone']
         email=request.POST['email']
-        attach=request.FILES.get('attach')       
         isdts=request.POST['tds']
         if isdts == '1':
             istdsval=request.POST['pora']
@@ -6899,9 +6900,9 @@ def createpayroll(request):
         print(uan)
         print(pfn)
         print(pran)
-        payroll= Payroll(name=name,alias=alias,image=image,joindate=joindate,salary_type=saltype,salary=salary,emp_number=empnum,designation=designation,location=location,
-                         gender=gender,dob=dob,blood=blood,parent=fmname,spouse_name=sname,address=address,Phone=phone,
-                         email=email,ITN=itn,Aadhar=an,UAN=uan,PFN=pfn,PRAN=pran,attachment=attach,isTDS=istdsval,TDS=tds)
+        payroll= Payroll(title=title,first_name=fname,last_name=lname,alias=alias,image=image,joindate=joindate,salary_type=saltype,salary=salary,emp_number=empnum,designation=designation,location=location,
+                         gender=gender,dob=dob,blood=blood,parent=fmname,spouse_name=sname,address=address,permanent_address=paddress ,Phone=phone,emergency_phone=ephone,
+                         email=email,ITN=itn,Aadhar=an,UAN=uan,PFN=pfn,PRAN=pran,isTDS=istdsval,TDS=tds)
         payroll.save()
 
         bank=request.POST['bank']
@@ -6913,14 +6914,18 @@ def createpayroll(request):
             ttype=request.POST['ttype']
             b=Bankdetails(payroll=payroll,acc_no=accno,IFSC=ifsc,bank_name=bname,branch=branch,transaction_type=ttype)
             b.save()
+        attach=request.FILES.get('attach')       
+        if(attach):
+            att=Payrollfiles(attachment=attach,payroll=payroll)
         messages.success(request,'Saved succefully !')
         print(bank)
         return redirect('payroll_create')
     else:
         return redirect('payroll_create')
 def payroll_list(request):
+    company=company_details.objects.get(user=request.user)
     p=Payroll.objects.all()
-    return render(request,'payroll_list.html',{'pay':p})
+    return render(request,'payroll_list.html',{'pay':p,'company':company})
 def payroll_delete(request,pid):
     p=Payroll.objects.get(id=pid)
     p.delete()

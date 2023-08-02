@@ -39,7 +39,7 @@
 <section>
     <div class="containerprof p-3">
         <div class="head text-light p-3">
-            <h4>EMPLOYEE LIST</h4>
+            <h4>ALL EMPLOYEE</h4>
         </div>
         <!-- <span class="text-danger" id="no-data"></span> -->
         <!-- <input type="text" id="no-data" style="color: rgb(255, 255, 255);background: transparent;"> -->
@@ -52,15 +52,10 @@
                 <a class="btn btn-outline-primary" href="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                 role="button"><i class="fa fa-filter"></i>
                 </a>
-                <div class="dropdown-menu ">
-                    <a class="dropdown-item" href="{% url 'payroll_list' %}">All</a>
-                    <a class="dropdown-item" href="javascript:sortTable(1)">Name A-Z</a>
-                    <a class="dropdown-item" href="javascript:rsortTable(1)">Name Z-A</a>
-                    <a class="dropdown-item" href="javascript:sortTable(3)">Designation A-Z</a>
-                    <a class="dropdown-item" href="javascript:rsortTable(3)">Designation Z-A</a>
-                    <a class="dropdown-item" href="javascript:sortTable(6)">Salary Asc</a>
-                    <a class="dropdown-item" href="javascript:rsortTable(6)">Salary Desc</a>
-
+                <div class="dropdown-menu" id="filterMenu">
+                    <a class="dropdown-item" href="#" data-value="All">All</a>
+                    <a class="dropdown-item" href="#" data-value="Active">Active</a>
+                    <a class="dropdown-item" href="#" data-value="Inactive">Inactive</a>
                 </div>
                 <a class="btn btn-outline-primary" href="{% url 'payroll_create' %}"><i class="fa fa-plus"></i>NEW</a>
             </div>
@@ -112,7 +107,7 @@
         table = document.getElementById("mytable");
         tr = table.getElementsByTagName("tr");
         // input.style.borderColor = "green";
-        for (i = 0; i < tr.length; i++) {
+        for (i = 1; i < tr.length; i++) {
             let rowVisible = false;
             td = tr[i].getElementsByTagName("td");
             for (j = 0; j < td.length; j++) {
@@ -136,73 +131,28 @@
 });
 </script>
 <script>
-    function sortTable(columnIndex) {
-        let sortAscending = false
-        const table = document.getElementById("mytable");
-        const rows = Array.from(table.rows).slice(1); // Exclude the header row
+     const filterMenuLinks = document.querySelectorAll('#filterMenu a');
+        const table = document.getElementById('mytable').getElementsByTagName('tr');
 
-        rows.sort((row1, row2) => {
-            const cellValue1 = row1.cells[columnIndex].textContent.toLowerCase();
-            const cellValue2 = row2.cells[columnIndex].textContent.toLowerCase();
-
-            if (cellValue1 < cellValue2) {
-                return -1;
-            } else if (cellValue1 > cellValue2) {
-                return 1;
-            } else {
-                return 0;
-            }
-        });
-
-        // Clear the table body
-        while (table.rows.length > 1) {
-            table.deleteRow(1);
+        for (const link of filterMenuLinks) {
+            link.addEventListener('click', filterTable);
         }
 
-        // Append the sorted rows back to the table
-        rows.forEach(row => table.appendChild(row));
-        sortAscending = !sortAscending;
-    }
-    ; // Flag to indicate the sorting order
+        function filterTable(event) {
+            event.preventDefault(); // Prevent the link's default behavior (page navigation).
 
-function rsortTable(columnIndex) {
-    let sortAscending = false
-    const table = document.getElementById("mytable");
-    const rows = Array.from(table.rows).slice(1); // Exclude the header row
+            const selectedValue = this.getAttribute('data-value');
 
-    rows.sort((row1, row2) => {
-        const cellValue1 = row1.cells[columnIndex].textContent.toLowerCase();
-        const cellValue2 = row2.cells[columnIndex].textContent.toLowerCase();
+            for (let i = 1; i < table.length; i++) {
+                const row = table[i];
+                const status = row.getElementsByTagName('td')[5].innerText;
 
-        if (sortAscending) {
-            if (cellValue1 < cellValue2) {
-                return -1;
-            } else if (cellValue1 > cellValue2) {
-                return 1;
-            } else {
-                return 0;
-            }
-        } else {
-            if (cellValue1 > cellValue2) {
-                return -1;
-            } else if (cellValue1 < cellValue2) {
-                return 1;
-            } else {
-                return 0;
+                if (selectedValue === 'All' || status.toLowerCase() === selectedValue.toLowerCase()) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
             }
         }
-    });
-
-    // Clear the table body
-    while (table.rows.length > 1) {
-        table.deleteRow(1);
-    }
-
-    // Append the sorted rows back to the table
-    rows.forEach(row => table.appendChild(row));
-
-    // Toggle the sorting order for the next click
-    sortAscending = !sortAscending;
-}
 </script>
 {% endblock %}
