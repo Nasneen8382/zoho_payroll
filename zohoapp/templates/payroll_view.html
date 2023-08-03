@@ -61,7 +61,7 @@
     }
 
     #div-to-pdf label {
-        color: #5f5f5f;
+        color: #000000;
     }
 
     #div-to-pdf {
@@ -69,8 +69,9 @@
     }
 
     #div-to-pdf .bold {
-        font-size: 1rem;
-        /* font-weight: 600; */
+        font-size: 1.2rem;
+        color: #000000;
+        font-weight: 600;
     }
 
     .modal {
@@ -102,8 +103,8 @@
                     <i class="fa fa-filter"></i>
                 </a>
                 <div class="dropdown-menu ">
-                    <a class="dropdown-item" href="javascript:sortTable(1)">Sort By Salary Asc</a>
-                    <a class="dropdown-item" href="javascript:rsortTable(1)">Sort By Salary Desc</a>
+                    <a class="dropdown-item" href="javascript:sortTable(0)">Name A-Z</a>
+                    <a class="dropdown-item" href="javascript:rsortTable(0)">Name Z-A</a>
                 </div>
                 <a class="btn btn-outline-primary mr-1" href="{% url 'payroll_create' %}"><i class="fa fa-plus"></i></a>
             </div>
@@ -113,7 +114,7 @@
                 {% for i in pay %}
                 <tr class='clickable-row' data-href="{% url 'payroll_view' i.id %}">
                     <td class="pt-2">
-                        <p class="bold">{{ i.name}}</p>
+                        <p class="bold">{{i.first_name}} {{i.last_name}}</p>
                         <p class="text-secondary">{{ i.joindate}}</p>
 
                     </td>
@@ -125,7 +126,7 @@
         <div class="overview col-8 col-lg-8 col-md-9  col-sm-10 py-3">
             <div id="overview">
                 <div class="p-name">
-                    <h3 class="px-2 pb-2" id="id1">{{p.name}}</h3>
+                    <h3 class="px-2 pb-2" id="id1">{{p.first_name}} {{p.last_name}}</h3>
                 </div>
 
                 <div class="bar pt-3">
@@ -136,9 +137,27 @@
                         <a class="btn ml-1" href="{% url 'payroll_edit' p.id %}"><i class="fas fa-edit"></i></a>
                         <a class="btn ml-1" href="" id="convertToPDFButton" onclick="convertToPDF()"><i
                                 class="mdi mdi-printer"></i></a>
-                        <a class="btn ml-1" href="{% url 'file_download' p.id %}"><i class="fas fa-download"></i></a>
+                        <a class="btn ml-1" href="" id="dd1" data-bs-toggle="dropdown" aria-haspopup="true"
+                         aria-expanded="false" role="button">
+                            <i class="fas fa-download"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            
+                            <table class="table table-borderless">
+                                {% for a in attach %}
+                                <tr>
+                                    <td>{{forloop.counter}}.</td>
+                                    <td><a href="{% url 'file_download' a.id %}">{{a.attachment.name}}</a></td>
+                                    <td><a href="{% url 'deletefile' a.id %}"><i class="fas fa-trash"></i></a></td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                            
+                            
+                        </div>
+
                         <a class="btn ml-1" href="{% url 'payroll_delete' p.id %}"><i class="fa fa-trash"></i></a>
-                        <a class="btn ml-1" href="" data-bs-toggle="modal" data-bs-target="#commentModal"><i
+                        <a class="btn ml-1" href="" data-toggle="modal" data-target="#commentModal"><i
                                 class="far fa-comment"></i></a>
                         <label for="file-input" class="btn ml-1 border-0">
                             <i class="fas fa-paperclip"></i>
@@ -149,159 +168,27 @@
                 </div>
                 <hr>
                 <!-- <div id="pdf-content"><h2>this is content</h2></div> -->
-                <div id="div-to-pdf" class="div-to-pdf">
-                    <div class="row px-2">
-                        <div class="col-8 col-lg-8 col-md-6 col-sm-12">
-                            <div class="row my-2">
-                                <div class="col-6">
-                                    <label for="">Name</label>
-                                    <p class="bold">{{p.name}}</p>
-                                </div>
-                                <div class="col-6">
-                                    <label for="">Alias</label>
-                                    <p class="bold">{{p.alias}}</p>
-                                </div>
-                            </div>
-                            <div class="row my-2">
-                                <div class="col-6">
-                                    <label for="">Designation</label>
-                                    <p class="bold">{{p.designation}}</p>
-                                </div>
-                                <div class="col-6">
-                                    <label for="">Gender</label>
-                                    <p class="bold">{{p.joindate}}</p>
-                                </div>
-                            </div>
-                            <div class="row  my-2">
-                                <div class="col-6">
-                                    <label for="">Email</label>
-                                    <p class="bold">{{p.email}}</p>
-                                </div>
-                                <div class="col-6">
-                                    <label for="">Join date</label>
-                                    <p class="bold">{{p.gender}}</p>
-                                </div>
-                            </div>
-                            <div class="row  my-2">
-                                <div class="col-6">
-                                    <label for="">Phone Number</label>
-                                    <p class="bold">{{p.Phone}}</p>
-                                </div>
-                                <div class="col-6">
-                                    <label for="">Date of Birth</label>
-                                    <p class="bold">{{p.dob}}</p>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-4 col-lg-4 col-md-6 col-sm-12 p-3">
-                            <a href="{% url 'img_download' p.id %}" download>
-                                <img class="img-fluid" src="{{p.image.url}}" alt="" height="200px" name="img"
-                                    style="border-radius: 1rem;">
-                            </a>
-                        </div>
+                <div class="div-to-pdf" id="div-to-pdf">
+                    
+                <div class="row" style="height: 100%;">
+                <div class="col-6" style="background-color: rgb(117, 82, 53);height: 100%;">
+                    <div class="photo text-center py-3">
+                        <a href="{% url 'img_download' p.id %}" download>
+                            <img class="img-fluid" src="{{p.image.url}}" alt="" height="200px" name="img"
+                                style="border-radius: 0.5rem;">
+                        </a>
+                        
                     </div>
-                    <div class="row px-2 my-2">
-                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
-                            <label for="">Employee Number</label>
-                            <p class="bold">{{p.emp_number}}</p>
-                        </div>
-                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
-                            <label for="">Salary</label>
-                            <p class="bold">{{p.salary}}</p>
-                        </div>
-                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
-                            <label for="">Location</label>
-                            <p class="bold">{{p.location}}</p>
-                        </div>
+                    <div class="row mt-4">
+                        <div class="col-4"><label for="">Name :</label></div>
+                        <div class="col-8"><p class="bold">{{p.first_name}} {{p.last_name}}</p></div>
                     </div>
-                    <div class="row px-2 my-2">
-                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
-                            <label for="">Blood Group</label>
-                            <p class="bold">{{p.blood}}</p>
-                        </div>
-                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
-                            <label for="">Mother/Father Name</label>
-                            <p class="bold">{{p.parent}}</p>
-                        </div>
-                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
-                            <label for="">Spouse Name</label>
-                            <p class="bold">{{p.spouse_name}}</p>
-                        </div>
-                    </div>
-                    <div class="row px-2 my-2">
-                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
-                            <label for="">Address</label>
-                            <p class="bold">{{p.address}}</p>
-                        </div>
-
-                    </div>
-                    <h4 class="text-center py-2">Statutary information</h4>
-                    <hr>
-                    <div class="row px-2 my-2">
-                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
-                            <label for="">Aadhar Number</label>
-                            <p class="bold">{{p.Aadhar}}</p>
-                        </div>
-                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
-                            <label for="">Income Tax Number</label>
-                            <p class="bold">{{p.ITN}}</p>
-                        </div>
-                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
-                            <label for="">Universal Account Number(UAN)</label>
-                            <p class="bold">{{p.UAN}}</p>
-                        </div>
-                    </div>
-                    <div class="row px-2 my-2">
-                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
-                            <label for="">PF Account Number(PFN)</label>
-                            <p class="bold">{{p.PFN}}</p>
-                        </div>
-                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
-                            <label for="">PR Account Number(PRAN)</label>
-                            <p class="bold">{{p.PRAN}}</p>
-                        </div>
-                        <div class="col-4 col-lg-4 col-md-6 col-sm-12">
-                            {% if p.isTDS == 'Percentage' %}
-                            <label for="">TDS %</label>
-                            <p class="bold">{{p.TDS}}</p>
-                            {% elif p.isTDS == 'Amount' %}
-                            <label for="">TDS amount</label>
-                            <p class="bold">{{p.TDS}}</p>
-                            {% else %}
-                            <label for="">TDS </label>
-                            <p class="bold">nill</p>
-                            {% endif %}
-                        </div>
-                    </div>
-                    {% for bank in b %}
-                    <div class="bank-div"
-                        style="background-color: rgba(131, 110, 53, 0.479); border-radius: 20px; padding: 1rem;">
-                        <h4 class="text-center py-2">Bank Details</h4>
-                        <hr>
-                        <div class="row px-2 my-2">
-                            <div class="col-6 col-lg-6 col-md-6 col-sm-12">
-                                <label for="">Account NUmber</label>
-                                <p class="bold">{{bank.acc_no}}</p>
-                            </div>
-                            <div class="col-6 col-lg-6 col-md-6 col-sm-12">
-                                <label for="">Bank</label>
-                                <p class="bold">{{bank.bank_name}}</p>
-                            </div>
-                        </div>
-                        <div class="row px-2 my-2">
-                            <div class="col-6 col-lg-6 col-md-6 col-sm-12">
-                                <label for="">IFSC</label>
-                                <p class="bold">{{bank.IFSC}}</p>
-                            </div>
-                            <div class="col-6 col-lg-6 col-md-6 col-sm-12">
-                                <label for="">Branch Name</label>
-                                <p class="bold">{{bank.branch}}</p>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
                 </div>
+                <div class="col-6" style="background-color: greenred;">
+he
+                </div>
+            </div>
+        </div>
             </div>
         </div>
 
@@ -320,7 +207,7 @@
                     <h5 class="modal-title" id="exampleModalLabel">Add Comments</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </button>
+                      </button>
                 </div>
 
                 <form action="{% url 'add_payrollcomment' p.id %}" method="POST" enctype="multipart/form-data">
@@ -342,7 +229,7 @@
                                     <tr class="table-row">
                                         <td>{{forloop.counter }}</td>
                                         <td>{{c.comment}}</td>
-                                        <td><a href="{% url 'delete_payrollcomment' c.id p.id %}">Delete</a></td>
+                                        <td><a href="{% url 'delete_payrollcomment' c.id  %}">Delete</a></td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

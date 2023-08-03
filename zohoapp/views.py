@@ -6935,7 +6935,10 @@ def payroll_view(request,id):
     p=Payroll.objects.get(id=id)
     com=Commentmodel.objects.filter(payroll=p)
     b=Bankdetails.objects.filter(payroll=p)
-    return render(request,'payroll_view.html',{'pay':payroll,'p':p,'b':b,'com':com})
+    attach=Payrollfiles.objects.filter(payroll=p)
+    print(p)
+    print(attach)
+    return render(request,'payroll_view.html',{'pay':payroll,'p':p,'b':b,'com':com,'attach':attach})
 
 def payroll_active(request,id):
     p=Payroll.objects.get(id=id)
@@ -6948,17 +6951,16 @@ def payroll_active(request,id):
 
 def payroll_file(request,id):
     if request.method == "POST" and request.FILES.get("file"):
-        print("hellooooooooooooooooo")
         uploaded_file = request.FILES["file"]
-        p=Payroll.objects.get(id=id)
-        p.attachment=uploaded_file
-        # file_obj = Payroll(attachment=uploaded_file)
+        pay=Payroll.objects.get(id=id)
+        p=Payrollfiles(attachment=uploaded_file,payroll=pay)
+        # p.attachment=uploaded_file
         p.save()
         print("hellooooooooooooooooo")
-        return JsonResponse({"status": "success", "message": "File uploaded successfully!"})
+        return redirect('payroll_view',id=id)
     else:
         return JsonResponse({"status": "error", "message": "No file uploaded."})
-    # 
+    
 
 def img_download(request,id):
     p=Payroll.objects.get(id=id)
@@ -6968,13 +6970,18 @@ def img_download(request,id):
     response['Content-Disposition'] = f'attachment; filename="{image_file.name}"'
     # return redirect('payroll_view',id=id)
     return response
-def file_download(request,id):
-    p=Payroll.objects.get(id=id)
-    file = p.attachment
+def file_download(request,aid):
+    att= Payrollfiles.objects.get(id=aid)
+    file = att.attachment
     response = FileResponse(file)
     response['Content-Disposition'] = f'attachment; filename="{file.name}"'
     return response
-def payroll_edit(request,pid):
+def deletefile(request,aid):
+    att=Payrollfiles.objects.get(id=aid)
+    p=att.payroll
+    att.delete()
+    return redirect('payroll_view',p.id)
+def payroll_edit(request,pid):  
     p=Payroll.objects.get(id=pid)
     print(p)
     
@@ -6989,11 +6996,14 @@ def add_payrollcomment(request,pid):
         c= Commentmodel(comment=comment,payroll=p)
         c.save()
     return redirect('payroll_view',id=pid)
-def delete_payrollcomment(request,cid,pid):
+def delete_payrollcomment(request,cid):
+    
     try:
-        comment = Commentmodel.objects.get(id=cid,payroll=pid)
+        comment = Commentmodel.objects.get(id=cid)
+        p=comment.payroll
+        print("================================")
         comment.delete()
-        return redirect('payroll_view', pid)
+        return redirect('payroll_view', p.id)
     except:
-        return redirect('payroll_view', pid)
+        return redirect('payroll_view', p.id)
 
