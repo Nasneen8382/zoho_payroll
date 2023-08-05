@@ -60,18 +60,29 @@
         height: 2.5vw;
     }
 
-    #div-to-pdf label {
+    #div-to-pdf .p-info label {
+        color: #ffffff;
+        font-size: .8rem;
+    }
+
+    #div-to-pdf .gen-info label {
         color: #000000;
     }
 
-    #div-to-pdf {
-        padding: 0 1rem;
+    #div-to-pdf .gen-info .bold {
+        color: #000000;
+        font-size: 1rem;
     }
 
-    #div-to-pdf .bold {
-        font-size: 1.2rem;
+    .div-to-pdf div {
         color: #000000;
-        font-weight: 600;
+    }
+
+
+    #div-to-pdf .p-info .bold {
+        font-size: 1rem;
+        color: #ffffff;
+        /* font-weight: bold; */
     }
 
     .modal {
@@ -98,8 +109,8 @@
                 <input class="form-control" type="text" placeholder="Search by Name" name="search" id="search"
                     onkeyup="searchFunction()"
                     style="color: rgb(255, 255, 255);background: transparent;margin-right: 5px;">
-                <a class="btn btn-outline-primary mx-1" href="" data-bs-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false" role="button">
+                <a class="btn btn-outline-primary mx-1" href="" data-bs-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false" role="button">
                     <i class="fa fa-filter"></i>
                 </a>
                 <div class="dropdown-menu ">
@@ -138,11 +149,11 @@
                         <a class="btn ml-1" href="" id="convertToPDFButton" onclick="convertToPDF()"><i
                                 class="mdi mdi-printer"></i></a>
                         <a class="btn ml-1" href="" id="dd1" data-bs-toggle="dropdown" aria-haspopup="true"
-                         aria-expanded="false" role="button">
+                            aria-expanded="false" role="button">
                             <i class="fas fa-download"></i>
                         </a>
                         <div class="dropdown-menu">
-                            
+
                             <table class="table table-borderless">
                                 {% for a in attach %}
                                 <tr>
@@ -152,8 +163,8 @@
                                 </tr>
                                 {% endfor %}
                             </table>
-                            
-                            
+
+
                         </div>
 
                         <a class="btn ml-1" href="{% url 'payroll_delete' p.id %}"><i class="fa fa-trash"></i></a>
@@ -168,34 +179,114 @@
                 </div>
                 <hr>
                 <!-- <div id="pdf-content"><h2>this is content</h2></div> -->
-                <div class="div-to-pdf" id="div-to-pdf">
-                    
-                <div class="row" style="height: 100%;">
-                <div class="col-6" style="background-color: rgb(117, 82, 53);height: 100%;">
-                    <div class="photo text-center py-3">
-                        <a href="{% url 'img_download' p.id %}" download>
-                            <img class="img-fluid" src="{{p.image.url}}" alt="" height="200px" name="img"
-                                style="border-radius: 0.5rem;">
-                        </a>
+                <!-- <div class="div-to-pdf" id="div-to-pdf" style="background-color: rgb(167, 123, 13);"> -->
+
+                <div class="div-to-pdf row" id="div-to-pdf" style="height: 100%;background-color: rgb(207, 154, 74);">
+                    <div class="bar py-4" style=" font-size: .8rem;">
+                        <div class="left" style="font-size: .9rem;"> {{p.designation}}</div>
+                        <div class="right">Emp no: {{p.emp_number}} <br>join Date: {{p.joindate}}</div>
+                    </div>
+
+                    <div class="row text-center">
+                        <h3 class="h3 text-dark">EMPLOYEE DETAILS</h3>
+                    </div>
+                    <hr>
+                    <div class="gen-info col-6 " style="padding-left: 3rem;">
+                        <div class="photo text-center py-3" style="height: 30vh;">
+                            <a href="{% url 'img_download' p.id %}" download>
+                                <img class="img-fluid" src="{{p.image.url}}" alt="" width="150px" name="img">
+                            </a>
+
+                        </div>
+                        <div class="row text-center">
+                            <h5 class="h4 text-dark">{{p.title}} {{p.first_name}} {{p.last_name}}</h5>
+                            <div class="h5">({{p.alias}}) {{p.gender}}</div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-4"><label for="">Email :</label></div>
+                            <div class="col-8">
+                                <p class="bold">{{p.email}}</p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-4"><label for="">Phone :</label></div>
+                            <div class="col-8">
+                                <p class="bold">{{p.Phone}}</p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-5"><label for="">Location :</label></div>
+                            <div class="col-7">
+                                <p class="bold">{{p.location}}</p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-5"><label for="">Address :</label></div>
+                            <div class="col-7">
+                                <p class="bold">{{p.address}}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="p-info col-6" style="height: 100%;">
+                        <div class="card" style="background-color: rgb(110, 61, 46); padding:1rem;">
+                            <div class="row my-2">
+                                <div class="col-4"><label for="">Salary :</label></div>
+                                <div class="col-8">
+                                    <p class="h3">{{p.salary}} INR</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <!-- <div class="card-title my-2">General information <hr></div> -->
+
+                            <div class="row mt-4">
+                                {% if p.isTDS == 'Percentage' %}
+                                <div class="col-5"><label for="">TDS %</label></div>
+                                <div class="col-7"><p class="bold">{{p.TDS}} %</p></div>
+                                {% elif p.isTDS == 'Amount' %}
+                                <div class="col-5"><label for="">TDS amount</label></div>
+                                <div class="col-7"><p class="bold">{{p.TDS}} ₹</p></div>
+                                {% else %}
+                                <div class="col-5"><label for="">TDS </label></div>
+                                <div class="col-7"><p class="bold">nill</p></div>
+                                {% endif %}
+                            </div>
                         
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-4"><label for="">Name :</label></div>
-                        <div class="col-8"><p class="bold">{{p.first_name}} {{p.last_name}}</p></div>
+                        <div class="row mt-2">
+                            <div class="col-5"><label for="">Gender :</label></div>
+                            <div class="col-7">
+                                <p class="bold">{{p.gender}}</p>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-5"><label for="">Date of birth :</label></div>
+                            <div class="col-7">
+                                <p class="bold">{{p.dob}}</p>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-5"><label for="">Parent Name :</label></div>
+                            <div class="col-7">
+                                <p class="bold">{{p.parent}}</p>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-5"><label for="">Spouse :</label></div>
+                            <div class="col-7">
+                                <p class="bold">{{p.spouse_name}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-6" style="background-color: greenred;">
-he
-                </div>
             </div>
+            <!-- </div> -->
         </div>
-            </div>
-        </div>
+    </div>
 
     </div>
 
 
-    
+
 
     <!-- Modal -->
     <!-- Add Comments Modal -->
@@ -207,7 +298,7 @@ he
                     <h5 class="modal-title" id="exampleModalLabel">Add Comments</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                      </button>
+                    </button>
                 </div>
 
                 <form action="{% url 'add_payrollcomment' p.id %}" method="POST" enctype="multipart/form-data">
@@ -325,8 +416,8 @@ he
     }
 </script>
 <script>
-function sortTable(columnIndex) {
-    let sortAscending = false
+    function sortTable(columnIndex) {
+        let sortAscending = false
         const table = document.getElementById("mytable");
         const rows = Array.from(table.rows).slice(1); // Exclude the header row
 
@@ -352,46 +443,46 @@ function sortTable(columnIndex) {
         rows.forEach(row => table.appendChild(row));
         sortAscending = !sortAscending;
     }
-    
+
     function rsortTable(columnIndex) {
         let sortAscending = false
-    const table = document.getElementById("mytable");
-    const rows = Array.from(table.rows).slice(1); // Exclude the header row
+        const table = document.getElementById("mytable");
+        const rows = Array.from(table.rows).slice(1); // Exclude the header row
 
-    rows.sort((row1, row2) => {
-        const cellValue1 = row1.cells[columnIndex].textContent.toLowerCase();
-        const cellValue2 = row2.cells[columnIndex].textContent.toLowerCase();
+        rows.sort((row1, row2) => {
+            const cellValue1 = row1.cells[columnIndex].textContent.toLowerCase();
+            const cellValue2 = row2.cells[columnIndex].textContent.toLowerCase();
 
-        if (sortAscending) {
-            if (cellValue1 < cellValue2) {
-                return -1;
-            } else if (cellValue1 > cellValue2) {
-                return 1;
+            if (sortAscending) {
+                if (cellValue1 < cellValue2) {
+                    return -1;
+                } else if (cellValue1 > cellValue2) {
+                    return 1;
+                } else {
+                    return 0;
+                }
             } else {
-                return 0;
+                if (cellValue1 > cellValue2) {
+                    return -1;
+                } else if (cellValue1 < cellValue2) {
+                    return 1;
+                } else {
+                    return 0;
+                }
             }
-        } else {
-            if (cellValue1 > cellValue2) {
-                return -1;
-            } else if (cellValue1 < cellValue2) {
-                return 1;
-            } else {
-                return 0;
-            }
+        });
+
+        // Clear the table body
+        while (table.rows.length > 1) {
+            table.deleteRow(1);
         }
-    });
 
-    // Clear the table body
-    while (table.rows.length > 1) {
-        table.deleteRow(1);
+        // Append the sorted rows back to the table
+        rows.forEach(row => table.appendChild(row));
+
+        // Toggle the sorting order for the next click
+        sortAscending = !sortAscending;
     }
-
-    // Append the sorted rows back to the table
-    rows.forEach(row => table.appendChild(row));
-
-    // Toggle the sorting order for the next click
-    sortAscending = !sortAscending;
-}
 
 
     function convertToPDF() {
