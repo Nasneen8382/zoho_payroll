@@ -692,6 +692,7 @@ class Comments_item(models.Model):
     item=models.ForeignKey(AddItem,on_delete=models.CASCADE,null=True,blank=True)
     content = models.TextField(max_length=255,null=True,blank=True)
 
+
 class Payroll(models.Model):
     title = models.CharField(max_length=100,null=True)
     first_name = models.CharField(max_length=100)

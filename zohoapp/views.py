@@ -6811,14 +6811,17 @@ def payment_delete_details(request):
 
 
 
-
+# replace
 def payroll_create(request):
-    return render(request,'payroll_create.html')
+    company=company_details.objects.get(user=request.user)
+    return render(request,'payroll_create.html',{'company':company})
 def editpayroll(request,id):
     p=Payroll.objects.get(id=id)
     
     if request.method=='POST':
-        p.name=request.POST['name']
+        p.title=request.POST['title']
+        p.first_name=request.POST['fname']
+        p.last_name=request.POST['lname']
         p.alias=request.POST['alias']
         p.joindate=request.POST['joindate']
         p.salary=request.POST['salary']   
@@ -6832,7 +6835,9 @@ def editpayroll(request,id):
         p.parent=request.POST['fm_name']
         p.spouse_name=request.POST['s_name']        
         p.address=request.POST['address'] 
+        p.permanent_address=request.POST['paddress'] 
         p.Phone=request.POST['phone']
+        p.emergency_phone=request.POST['ephone']
         p.email=request.POST['email']
         p.ITN=request.POST['itn']
         p.Aadhar=request.POST['an']
@@ -6896,10 +6901,6 @@ def createpayroll(request):
         uan=request.POST['uan'] 
         pfn=request.POST['pfn']
         pran=request.POST['pran']
-        print(itn)
-        print(uan)
-        print(pfn)
-        print(pran)
         payroll= Payroll(title=title,first_name=fname,last_name=lname,alias=alias,image=image,joindate=joindate,salary_type=saltype,salary=salary,emp_number=empnum,designation=designation,location=location,
                          gender=gender,dob=dob,blood=blood,parent=fmname,spouse_name=sname,address=address,permanent_address=paddress ,Phone=phone,emergency_phone=ephone,
                          email=email,ITN=itn,Aadhar=an,UAN=uan,PFN=pfn,PRAN=pran,isTDS=istdsval,TDS=tds)
@@ -6919,7 +6920,7 @@ def createpayroll(request):
             att=Payrollfiles(attachment=attach,payroll=payroll)
         messages.success(request,'Saved succefully !')
         print(bank)
-        return redirect('payroll_create')
+        return redirect('payroll_list')
     else:
         return redirect('payroll_create')
 def payroll_list(request):
@@ -6936,9 +6937,10 @@ def payroll_view(request,id):
     com=Commentmodel.objects.filter(payroll=p)
     b=Bankdetails.objects.filter(payroll=p)
     attach=Payrollfiles.objects.filter(payroll=p)
+    company=company_details.objects.get(user=request.user)
     print(p)
     print(attach)
-    return render(request,'payroll_view.html',{'pay':payroll,'p':p,'b':b,'com':com,'attach':attach})
+    return render(request,'payroll_view.html',{'pay':payroll,'p':p,'b':b,'com':com,'attach':attach,'company':company})
 
 def payroll_active(request,id):
     p=Payroll.objects.get(id=id)
@@ -6983,11 +6985,12 @@ def deletefile(request,aid):
     return redirect('payroll_view',p.id)
 def payroll_edit(request,pid):  
     p=Payroll.objects.get(id=pid)
+    company=company_details.objects.get(user=request.user)
     print(p)
     
     b=Bankdetails.objects.filter(payroll=p)
     print(b)
-    return render(request,'payroll_edit.html',{'pay':p,'b':b})
+    return render(request,'payroll_edit.html',{'pay':p,'b':b,'company':company})
 
 def add_payrollcomment(request,pid):
     p=Payroll.objects.get(id=pid)

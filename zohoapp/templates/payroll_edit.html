@@ -19,28 +19,12 @@
     .data select,
     .data option,
     .gen-info option {
-        background-color: rgb(73, 72, 72);
-        color: white;
+        /* background-color: rgb(73, 72, 72); */
+        /* color: white; */
         border: none;
     }
 
-    input[type="text"],.gen-info textarea {
-
-        text-transform: capitalize;
-
-    }
-
-    input[type="text"]:focus,
-    input[type="date"]:focus,
-    input[type="number"]:focus,
-    input[type="email"]:focus,
-    input[type="file"]:focus,
-    .gen-info textarea:focus,
-    .data select:focus,
-    .gen-info select:focus {
-        background: transparent;
-        color: white;
-    }
+   
 
     .gen-info .left {
         padding-right: 2rem;
@@ -83,40 +67,46 @@
                 <div class="data col-6 col-lg-6 col-md-6 col-sm-12">
                     <div class="row pb-3">
                         <div class="col-6">
-                            <label for="">Name</label>
+                            <label for="">Title</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control" name="name" value="{{pay.name}}"></div>
+                        <div class=" col-6">
+                            <input type="text" class="form-control text-dark" name="title" id="title" value="{{pay.title}}">
+                        </div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">First Name</label>
+                        </div>
+                        <div class="input-container col-6">
+                            <input type="text" class="form-control text-dark" name="fname" id="fname" value="{{pay.first_name}}">
+                        </div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Last Name</label>
+                        </div>
+                        <div class="input-container col-6">
+                            <input type="text" class="form-control text-dark" name="lname" id="lname" value="{{pay.last_name}}">
+                        </div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Alias</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control" name="alias" value="{{pay.alias}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="alias" value="{{pay.alias}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Date of joining</label>
                         </div>
-                        <div class="col-6"><input type="date" class="form-control" name="joindate" value="{{pay.joindate | date:'Y-m-d'}}"></div>
+                        <div class="col-6"><input type="date" class="form-control text-dark" name="joindate" value="{{pay.joindate | date:'Y-m-d'}}"></div>
                     </div>
-                    <!-- <div class="row pb-3">
-                        <div class="col-6">
-                            <label for="">Define salary details</label>
-                        </div>
-                        <div class="col-6">
-                            <select class="form-control" name="saltype" id="sal" onchange="salFunction()">
-                                <option value="">Select</option>
-                                <option value="Fixed">Fixed</option>
-                                <option value="Variable">Variable</option>
-                            </select>
-                        </div>
-                    </div> -->
                     <div id="fixed">
                         <div class="row">
                             <div class="col-6">
                                 <label for="">Salary Amount</label>
                             </div>
-                            <div class="col-6"><input type="number" class="form-control" name="salary" value="{{pay.salary}}"></div>
+                            <div class="col-6"><input type="number" class="form-control text-dark" name="salary" value="{{pay.salary}}"></div>
                         </div>
 
                     </div>
@@ -160,69 +150,82 @@
                         <div class="col-6">
                             <label for="">Employee Number</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control" name="empnum" value="{{pay.emp_number}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="empnum" value="{{pay.emp_number}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Designation</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control" name="designation" value="{{pay.designation}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="designation" value="{{pay.designation}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Location</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control" name="location" value="{{pay.location}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="location" value="{{pay.location}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Gender</label>
                         </div>
                         <div class="col-6">
-                            <input type="text" name="gender" class="form-control" value="{{pay.gender}}">
+                            <input type="text" name="gender" class="form-control text-dark" value="{{pay.gender}}">
                         </div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Date of Birth</label>
                         </div>
-                        <div class="col-6"><input type="date" class="form-control" name="dob" value="{{pay.dob | date:'Y-m-d'}}"></div>
+                        <div class="col-6"><input type="date" class="form-control text-dark" name="dob" value="{{pay.dob | date:'Y-m-d'}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Blood Group</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control" name="blood" value="{{pay.blood}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="blood" value="{{pay.blood}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Father's Name/Mother's Name</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control" name="fm_name" value="{{pay.parent}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="fm_name" value="{{pay.parent}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Spouse's Name</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control" name="s_name" value="{{pay.spouse_name}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="s_name" value="{{pay.spouse_name}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Address</label>
                         </div>
-                        <div class="col-6"><textarea class="form-control" name="address">{{pay.address}}</textarea></div>
+                        <div class="col-6"><textarea class="form-control text-dark" name="address">{{pay.address}}</textarea></div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Permanent Address</label>
+                        </div>
+                        <div class="col-6"><textarea class="form-control text-dark" name="paddress">{{pay.permanent_address}}</textarea></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Phone Number</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control" name="phone" value="{{pay.Phone}}"></div>
+                        <div class="col-6"><input type="number" class="form-control text-dark" name="phone" value="{{pay.Phone}}"></div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-6">
+                            <label for="">Emergency Contact Number</label>
+                        </div>
+                        <div class="col-6"><input type="number" class="form-control text-dark" name="ephone" id="ephone" value="{{pay.emergency_phone}}" >
+                        </div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Email</label>
                         </div>
-                        <div class="col-6"><input type="email" class="form-control" name="email" value="{{pay.email}}"></div>
+                        <div class="col-6"><input type="email" class="form-control text-dark" name="email" value="{{pay.email}}"></div>
                     </div>
                 </div>
                 <div class="col-6 col-lg-6 col-md-6 col-sm-12 pt-3">
@@ -233,26 +236,26 @@
                             <div class="col-6">
                                 <label for="">Account Number</label>
                             </div>
-                            <div class="col-6"><input type="number" class="form-control" name="acc_no" value="{{bank.acc_no}}"></div>
+                            <div class="col-6"><input type="number" class="form-control text-dark" name="acc_no" value="{{bank.acc_no}}"></div>
                         </div>
                         <div class="row pb-3">
                             <div class="col-6">
                                 <label for="">IFSC</label>
                             </div>
-                            <div class="col-6"><input type="text" class="form-control" name="ifsc" value="{{bank.IFSC}}"
+                            <div class="col-6"><input type="text" class="form-control text-dark" name="ifsc" value="{{bank.IFSC}}"
                                     style="text-transform:uppercase"></div>
                         </div>
                         <div class="row pb-3">
                             <div class="col-6">
                                 <label for="">Name of Bank</label>
                             </div>
-                            <div class="col-6"><input type="text" class="form-control" name="b_name"  value="{{bank.bank_name}}"></div>
+                            <div class="col-6"><input type="text" class="form-control text-dark" name="b_name"  value="{{bank.bank_name}}"></div>
                         </div>
                         <div class="row pb-3">
                             <div class="col-6">
                                 <label for="">Branch Name</label>
                             </div>
-                            <div class="col-6"><input type="text" class="form-control" name="branch"  value="{{bank.branch}}"></div>
+                            <div class="col-6"><input type="text" class="form-control text-dark" name="branch"  value="{{bank.branch}}"></div>
                         </div>
                         <h5 class="text-center py-1">For Banking</h5>
                         <div class="row pb-3">
@@ -260,7 +263,7 @@
                                 <label for="">Transaction Type</label>
                             </div>
                             <div class="col-6">
-                                <input type="text" class="form-control" name="ttype"  value="{{bank.transaction_type}}">
+                                <input type="text" class="form-control text-dark" name="ttype"  value="{{bank.transaction_type}}">
                             </div>
                         </div>
                     </div>
@@ -270,37 +273,37 @@
                         <div class="col-6">
                             <label for="">Income Tax Number</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control" name="itn" value="{{pay.ITN}}"></div>
+                        <div class="col-6"><input type="number" class="form-control text-dark" name="itn" value="{{pay.ITN}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Aadhar Number</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control" name="an" value="{{pay.Aadhar}}"></div>
+                        <div class="col-6"><input type="number" class="form-control text-dark" name="an" value="{{pay.Aadhar}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Universal Account Number(UAN)</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control" name="uan" value="{{pay.UAN}}"></div>
+                        <div class="col-6"><input type="number" class="form-control text-dark" name="uan" value="{{pay.UAN}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">PF Account Number(PFN)</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control" name="pfn" value="{{pay.PFN}}"></div>
+                        <div class="col-6"><input type="number" class="form-control text-dark" name="pfn" value="{{pay.PFN}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">PR Account Number(PRAN)</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control" name="pran" value="{{pay.PRAN}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="pran" value="{{pay.PRAN}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">TDS</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control" name="tds" value="{{pay.TDS}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="tds" value="{{pay.TDS}}"></div>
                     </div>
                 </div>
             </div>
@@ -325,5 +328,18 @@
 
 
 </section>
+<script>
+    inputvalue=document.getElementById('ifsc')
+    inputvalue.addEventListener("input", function () {
+        inputvalue.value = inputvalue.value.toUpperCase();
+        });
+        const inputFields = document.querySelectorAll("input[type='text']");
 
+        inputFields.forEach(function(input) {
+            input.addEventListener("input", function() {
+                const inputValue = input.value;
+                input.value = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
+            });
+        });
+</script>
 {% endblock %}

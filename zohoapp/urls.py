@@ -320,6 +320,8 @@ urlpatterns = [
     path('payment_template',views.payment_template,name='payment_template'), 
     path('payment/delete/<int:payment_id>',views.delete_payment,name='delete_payment'),
     path('payment_delete_details',views.payment_delete_details,name='payment_delete_details'),
+
+    
     path('payroll_create',views.payroll_create,name='payroll_create'),
     path('payroll_list',views.payroll_list,name='payroll_list'),
     path('createpayroll',views.createpayroll,name='createpayroll'),
