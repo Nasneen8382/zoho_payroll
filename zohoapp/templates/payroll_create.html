@@ -276,18 +276,24 @@
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
-                            <label for="">Temporary Address</label>
-                        </div>
-                        <div class="col-6"><textarea class="form-control text-dark" name="address" required></textarea>
-                        </div>
-                    </div>
-                    <div class="row pb-3">
-                        <div class="col-6">
                             <label for="">Permanent Address</label>
                         </div>
-                        <div class="col-6"><textarea class="form-control text-dark" name="paddress" required></textarea>
+                        <div class="col-6">
+                            <textarea class="form-control text-dark mb-2" name="paddress" id="padrs1" required></textarea>
+                            <textarea class="form-control text-dark" name="paddress2" id="padrs2" required></textarea>
                         </div>
                     </div>
+                    <div class="row pb-4">
+                        <div class="col-6">
+                            <label for="">Temporary Address</label>
+                        </div>
+                        <div class="col-6">
+                            <input class="mx-2" type="checkbox" id="filladdress" name="filladdress" ><label style="font-size: .8rem;">Same as permanent address</label>
+                            <textarea class="form-control text-dark mb-2" name="address" id="adrs1" required></textarea>
+                            <textarea class="form-control text-dark" name="address2" id="adrs2" required></textarea>
+                        </div>
+                    </div>
+                    
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Contact Number</label>
@@ -608,6 +614,20 @@
         this.value = input.slice(0, 15); // Truncate the input to 10 characters
       }
     });
+
+    $(document).ready(function(){
+    $("#filladdress").on("click", function(){
+         if (this.checked) { 
+                $("#adrs1").val($("#padrs1").val());
+                $("#adrs2").val($("#padrs2").val());
+                                         
+    }
+    else {
+        $("#adrs1").val('');
+        $("#adrs2").val('');           
+    }
+    });
+});
   </script>
   
 {% endblock %}

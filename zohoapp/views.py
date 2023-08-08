@@ -6881,8 +6881,12 @@ def createpayroll(request):
         blood=request.POST['blood']
         fmname=request.POST['fm_name']
         sname=request.POST['s_name']        
-        address=request.POST['address']
-        paddress=request.POST['paddress'] 
+        add1=request.POST['address']
+        add2=request.POST['address2']
+        address=add1+add2
+        padd1=request.POST['paddress'] 
+        padd2=request.POST['paddress2'] 
+        paddress= padd1+padd2
         phone=request.POST['phone']
         ephone=request.POST['ephone']
         email=request.POST['email']
@@ -6956,12 +6960,11 @@ def payroll_file(request,id):
         uploaded_file = request.FILES["file"]
         pay=Payroll.objects.get(id=id)
         p=Payrollfiles(attachment=uploaded_file,payroll=pay)
-        # p.attachment=uploaded_file
         p.save()
         print("hellooooooooooooooooo")
-        return redirect('payroll_view',id=id)
+        return redirect('payroll_view',id)
     else:
-        return JsonResponse({"status": "error", "message": "No file uploaded."})
+        return redirect('payroll_view',id)
     
 
 def img_download(request,id):

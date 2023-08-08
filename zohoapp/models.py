@@ -724,7 +724,7 @@ class Payroll(models.Model):
     isTDS=models.CharField(max_length=200,null=True)
     TDS = models.IntegerField(null=True,default=0)
 class Bankdetails(models.Model):
-    acc_no = models.IntegerField()   
+    acc_no = models.BigIntegerField()  
     IFSC = models.CharField(max_length=100)
     bank_name = models.CharField(max_length=100)
     branch = models.CharField(max_length=100)
