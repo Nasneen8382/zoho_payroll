@@ -198,34 +198,51 @@
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
-                            <label for="">Address</label>
+                            <label for="">Permanent Address</label>
                         </div>
-                        <div class="col-6"><textarea class="form-control text-dark" name="address">{{pay.address}}</textarea></div>
+                        <div class="col-6">
+                            <textarea class="form-control text-dark" name="paddress">{{padd1}}</textarea>
+                            <textarea class="form-control text-dark mt-2" name="paddress2">{{padd2}}</textarea>
+                        </div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
-                            <label for="">Permanent Address</label>
+                            <label for="">Address</label>
                         </div>
-                        <div class="col-6"><textarea class="form-control text-dark" name="paddress">{{pay.permanent_address}}</textarea></div>
+                        <div class="col-6">
+                            <textarea class="form-control text-dark" name="address">{{add1}}</textarea>
+                            <textarea class="form-control text-dark mt-2" name="address2">{{add2}}</textarea>
+                        </div>
                     </div>
+                    
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Phone Number</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control text-dark" name="phone" value="{{pay.Phone}}"></div>
+                        <div class="col-6">
+                            <input type="number" class="form-control text-dark" name="phone" id="phone" value="{{pay.Phone}}"
+                            onkeyup="phoneValidate(document.getElementById('phone'),document.getElementById('pherror'))">
+                            <div id="pherror" class="text-danger"></div>
+                        </div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Emergency Contact Number</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control text-dark" name="ephone" id="ephone" value="{{pay.emergency_phone}}" >
+                        <div class="col-6">
+                            <input type="number" class="form-control text-dark" name="ephone" id="ephone" value="{{pay.emergency_phone}}" 
+                            onkeyup="phoneValidate(document.getElementById('ephone'),document.getElementById('epherror'))">
+                            <div id="epherror" class="text-danger"></div>
                         </div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Email</label>
                         </div>
-                        <div class="col-6"><input type="email" class="form-control text-dark" name="email" value="{{pay.email}}"></div>
+                        <div class="col-6"><input type="email" class="form-control text-dark" name="email" value="{{pay.email}}" id="email"
+                            required onkeyup="emailvalidate()">
+                        <div id="error" class="text-danger"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-6 col-lg-6 col-md-6 col-sm-12 pt-3">
@@ -236,7 +253,7 @@
                             <div class="col-6">
                                 <label for="">Account Number</label>
                             </div>
-                            <div class="col-6"><input type="number" class="form-control text-dark" name="acc_no" value="{{bank.acc_no}}"></div>
+                            <div class="col-6"><input type="number" class="form-control text-dark" name="acc_no" id="acc_no" value="{{bank.acc_no}}"></div>
                         </div>
                         <div class="row pb-3">
                             <div class="col-6">
@@ -279,7 +296,7 @@
                         <div class="col-6">
                             <label for="">Aadhar Number</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control text-dark" name="an" value="{{pay.Aadhar}}"></div>
+                        <div class="col-6"><input type="number" class="form-control text-dark" name="an" id="an" value="{{pay.Aadhar}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
@@ -341,5 +358,40 @@
                 input.value = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
             });
         });
+        document.getElementById("an").addEventListener("input", function() {
+      const input = this.value;
+      if (input.length > 12) {
+        this.value = input.slice(0, 12); // Truncate the input to 10 characters
+      }
+    });
+    document.getElementById("acc_no").addEventListener("input", function() {
+      const input = this.value;
+      if (input.length > 15) {
+        this.value = input.slice(0, 15); // Truncate the input to 10 characters
+      }
+    });
+    function phoneValidate(phn, pherror) {
+        if (!phn.value.match(/^[6-9]\d{9}$/)) {
+            pherror.style.display = "block"
+            pherror.style.fontSize = ".8rem"
+            pherror.innerHTML = "*Please enter a valid phone number"
+            return false;
+        }
+        pherror.style.display = "none"
+        pherror.innerHTML = ""
+        return true;
+    }
+    function emailvalidate() {
+        var email = document.getElementById('email')
+        var error = document.getElementById('error')
+        if (!email.value.match(/^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)) {
+            error.style.fontSize = ".8rem"
+            error.innerHTML = "*Please enter a valid email"
+            return false;
+
+        }
+        error.innerHTML = ""
+        return true;
+    }
 </script>
 {% endblock %}

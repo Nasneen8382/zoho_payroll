@@ -6833,9 +6833,15 @@ def editpayroll(request,id):
         p.dob=request.POST['dob']
         p.blood=request.POST['blood']
         p.parent=request.POST['fm_name']
-        p.spouse_name=request.POST['s_name']        
-        p.address=request.POST['address'] 
-        p.permanent_address=request.POST['paddress'] 
+        p.spouse_name=request.POST['s_name']  
+        add1=request.POST['address']
+        add2=request.POST['address2']
+        address=add1+" "+add2
+        padd1=request.POST['paddress'] 
+        padd2=request.POST['paddress2'] 
+        paddress= padd1+" "+padd2      
+        p.address=address 
+        p.permanent_address=paddress 
         p.Phone=request.POST['phone']
         p.emergency_phone=request.POST['ephone']
         p.email=request.POST['email']
@@ -6922,7 +6928,7 @@ def createpayroll(request):
         attach=request.FILES.get('attach')       
         if(attach):
             att=Payrollfiles(attachment=attach,payroll=payroll)
-        messages.success(request,'Saved succefully !')
+        # messages.success(request,'Saved succefully !')
         print(bank)
         return redirect('payroll_list')
     else:
@@ -6986,14 +6992,40 @@ def deletefile(request,aid):
     p=att.payroll
     att.delete()
     return redirect('payroll_view',p.id)
+
+def split_paragraph(paragraph):
+    words = paragraph.split()
+    total_words = len(words)
+    
+    midpoint = None
+    for i in range(total_words):
+        if i > total_words // 2 and words[i].isalpha():
+            midpoint = i
+            break
+    
+    if midpoint is None:
+        # If no suitable midpoint found, split at the actual midpoint
+        midpoint = total_words // 2
+    
+    first_half = ' '.join(words[:midpoint])
+    second_half = ' '.join(words[midpoint:])
+    return first_half, second_half
+
 def payroll_edit(request,pid):  
     p=Payroll.objects.get(id=pid)
     company=company_details.objects.get(user=request.user)
-    print(p)
-    
+    address=p.address
+    paddress=p.permanent_address
+    add1, add2 = split_paragraph(address)
+    padd1, padd2 = split_paragraph(paddress)
     b=Bankdetails.objects.filter(payroll=p)
     print(b)
-    return render(request,'payroll_edit.html',{'pay':p,'b':b,'company':company})
+    context = {
+                'add1' : add1,
+                'add2' : add2, 'padd1' : padd1, 'padd2': padd2,
+                'pay':p,'b':b,'company':company
+            }
+    return render(request,'payroll_edit.html',context)
 
 def add_payrollcomment(request,pid):
     p=Payroll.objects.get(id=pid)
