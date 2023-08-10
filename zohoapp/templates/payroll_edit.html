@@ -24,7 +24,7 @@
         border: none;
     }
 
-   
+
 
     .gen-info .left {
         padding-right: 2rem;
@@ -52,8 +52,6 @@
         position: relative;
 
     }
-    
-    
 </style>
 <section>
     <div class="containerprof p-5">
@@ -70,7 +68,8 @@
                             <label for="">Title</label>
                         </div>
                         <div class=" col-6">
-                            <input type="text" class="form-control text-dark" name="title" id="title" value="{{pay.title}}">
+                            <input type="text" class="form-control text-dark" name="title" id="title"
+                                value="{{pay.title}}">
                         </div>
                     </div>
                     <div class="row pb-3">
@@ -78,7 +77,8 @@
                             <label for="">First Name</label>
                         </div>
                         <div class="input-container col-6">
-                            <input type="text" class="form-control text-dark" name="fname" id="fname" value="{{pay.first_name}}">
+                            <input type="text" class="form-control text-dark" name="fname" id="fname"
+                                value="{{pay.first_name}}">
                         </div>
                     </div>
                     <div class="row pb-3">
@@ -86,31 +86,35 @@
                             <label for="">Last Name</label>
                         </div>
                         <div class="input-container col-6">
-                            <input type="text" class="form-control text-dark" name="lname" id="lname" value="{{pay.last_name}}">
+                            <input type="text" class="form-control text-dark" name="lname" id="lname"
+                                value="{{pay.last_name}}">
                         </div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Alias</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control text-dark" name="alias" value="{{pay.alias}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="alias"
+                                value="{{pay.alias}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Date of joining</label>
                         </div>
-                        <div class="col-6"><input type="date" class="form-control text-dark" name="joindate" value="{{pay.joindate | date:'Y-m-d'}}"></div>
+                        <div class="col-6"><input type="date" class="form-control text-dark" name="joindate"
+                                value="{{pay.joindate | date:'Y-m-d'}}"></div>
                     </div>
                     <div id="fixed">
                         <div class="row">
                             <div class="col-6">
                                 <label for="">Salary Amount</label>
                             </div>
-                            <div class="col-6"><input type="number" class="form-control text-dark" name="salary" value="{{pay.salary}}"></div>
+                            <div class="col-6"><input type="number" class="form-control text-dark" name="salary"
+                                    value="{{pay.salary}}"></div>
                         </div>
 
                     </div>
-                    
+
                 </div>
                 <div class="image col-6 col-lg-6 col-md-6 col-sm-12">
 
@@ -120,10 +124,10 @@
                         </div>
                         <div class="col-7 imgedit">
                             <label for="image-input">
-                                <img src="{{ pay.image.url }}" alt="" width="190px" height="200px"
-                                    id="img" style="background-color: rgba(156, 156, 156, 0.267); border-radius: 30px;">
-                                </label>
-                            <input id="image-input" type="file" name="file" class="form-control" accept="image/*" 
+                                <img src="{{ pay.image.url }}" alt="" width="190px" height="200px" id="img"
+                                    style="background-color: rgba(156, 156, 156, 0.267); border-radius: 30px;">
+                            </label>
+                            <input id="image-input" type="file" name="file" class="form-control" accept="image/*"
                                 onchange="loadFile(event)" style="display: none;">
 
                         </div>
@@ -150,19 +154,22 @@
                         <div class="col-6">
                             <label for="">Employee Number</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control text-dark" name="empnum" value="{{pay.emp_number}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="empnum"
+                                value="{{pay.emp_number}}" id="empnum"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Designation</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control text-dark" name="designation" value="{{pay.designation}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="designation"
+                                value="{{pay.designation}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Location</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control text-dark" name="location" value="{{pay.location}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="location"
+                                value="{{pay.location}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
@@ -176,33 +183,37 @@
                         <div class="col-6">
                             <label for="">Date of Birth</label>
                         </div>
-                        <div class="col-6"><input type="date" class="form-control text-dark" name="dob" value="{{pay.dob | date:'Y-m-d'}}"></div>
+                        <div class="col-6"><input type="date" class="form-control text-dark" name="dob"
+                                value="{{pay.dob | date:'Y-m-d'}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Blood Group</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control text-dark" name="blood" value="{{pay.blood}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="blood"
+                                value="{{pay.blood}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Father's Name/Mother's Name</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control text-dark" name="fm_name" value="{{pay.parent}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="fm_name"
+                                value="{{pay.parent}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Spouse's Name</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control text-dark" name="s_name" value="{{pay.spouse_name}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="s_name"
+                                value="{{pay.spouse_name}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Permanent Address</label>
                         </div>
                         <div class="col-6">
-                            <textarea class="form-control text-dark" name="paddress">{{padd1}}</textarea>
-                            <textarea class="form-control text-dark mt-2" name="paddress2">{{padd2}}</textarea>
+                            <textarea class="form-control text-dark pt-0" name="paddress">{{padd1}}</textarea>
+                            <textarea class="form-control text-dark mt-2 pt-0" name="paddress2">{{padd2}}</textarea>
                         </div>
                     </div>
                     <div class="row pb-3">
@@ -210,18 +221,19 @@
                             <label for="">Address</label>
                         </div>
                         <div class="col-6">
-                            <textarea class="form-control text-dark" name="address">{{add1}}</textarea>
-                            <textarea class="form-control text-dark mt-2" name="address2">{{add2}}</textarea>
+                            <textarea class="form-control text-dark pt-0" name="address">{{add1}}</textarea>
+                            <textarea class="form-control text-dark mt-2 pt-0" name="address2">{{add2}}</textarea>
                         </div>
                     </div>
-                    
+
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Phone Number</label>
                         </div>
                         <div class="col-6">
-                            <input type="number" class="form-control text-dark" name="phone" id="phone" value="{{pay.Phone}}"
-                            onkeyup="phoneValidate(document.getElementById('phone'),document.getElementById('pherror'))">
+                            <input type="number" class="form-control text-dark" name="phone" id="phone"
+                                value="{{pay.Phone}}"
+                                onkeyup="phoneValidate(document.getElementById('phone'),document.getElementById('pherror'))">
                             <div id="pherror" class="text-danger"></div>
                         </div>
                     </div>
@@ -230,8 +242,9 @@
                             <label for="">Emergency Contact Number</label>
                         </div>
                         <div class="col-6">
-                            <input type="number" class="form-control text-dark" name="ephone" id="ephone" value="{{pay.emergency_phone}}" 
-                            onkeyup="phoneValidate(document.getElementById('ephone'),document.getElementById('epherror'))">
+                            <input type="number" class="form-control text-dark" name="ephone" id="ephone"
+                                value="{{pay.emergency_phone}}"
+                                onkeyup="phoneValidate(document.getElementById('ephone'),document.getElementById('epherror'))">
                             <div id="epherror" class="text-danger"></div>
                         </div>
                     </div>
@@ -239,9 +252,9 @@
                         <div class="col-6">
                             <label for="">Email</label>
                         </div>
-                        <div class="col-6"><input type="email" class="form-control text-dark" name="email" value="{{pay.email}}" id="email"
-                            required onkeyup="emailvalidate()">
-                        <div id="error" class="text-danger"></div>
+                        <div class="col-6"><input type="email" class="form-control text-dark" name="email"
+                                value="{{pay.email}}" id="email" required onkeyup="emailvalidate()">
+                            <div id="error" class="text-danger"></div>
                         </div>
                     </div>
                 </div>
@@ -253,26 +266,43 @@
                             <div class="col-6">
                                 <label for="">Account Number</label>
                             </div>
-                            <div class="col-6"><input type="number" class="form-control text-dark" name="acc_no" id="acc_no" value="{{bank.acc_no}}"></div>
+                            <div class="col-6"><input type="number" class="form-control text-dark" name="acc_no"
+                                    id="acc_no" value="{{bank.acc_no}}"></div>
                         </div>
+                        <script>
+                            document.getElementById("acc_no").addEventListener("input", function () {
+                                const input = this.value;
+                                if (input.length > 15) {
+                                    this.value = input.slice(0, 15); // Truncate the input to 10 characters
+                                }
+                            });
+                        </script>
                         <div class="row pb-3">
                             <div class="col-6">
                                 <label for="">IFSC</label>
                             </div>
-                            <div class="col-6"><input type="text" class="form-control text-dark" name="ifsc" value="{{bank.IFSC}}"
-                                    style="text-transform:uppercase"></div>
+                            <div class="col-6"><input type="text" class="form-control text-dark" name="ifsc"
+                                    value="{{bank.IFSC}}" id="ifsc"></div>
                         </div>
+                        <script>
+                            inputvalue = document.getElementById('ifsc')
+                            inputvalue.addEventListener("input", function () {
+                                inputvalue.value = inputvalue.value.toUpperCase();
+                            });
+                        </script>
                         <div class="row pb-3">
                             <div class="col-6">
                                 <label for="">Name of Bank</label>
                             </div>
-                            <div class="col-6"><input type="text" class="form-control text-dark" name="b_name"  value="{{bank.bank_name}}"></div>
+                            <div class="col-6"><input type="text" class="form-control text-dark" name="b_name"
+                                    value="{{bank.bank_name}}"></div>
                         </div>
                         <div class="row pb-3">
                             <div class="col-6">
                                 <label for="">Branch Name</label>
                             </div>
-                            <div class="col-6"><input type="text" class="form-control text-dark" name="branch"  value="{{bank.branch}}"></div>
+                            <div class="col-6"><input type="text" class="form-control text-dark" name="branch"
+                                    value="{{bank.branch}}"></div>
                         </div>
                         <h5 class="text-center py-1">For Banking</h5>
                         <div class="row pb-3">
@@ -280,7 +310,8 @@
                                 <label for="">Transaction Type</label>
                             </div>
                             <div class="col-6">
-                                <input type="text" class="form-control text-dark" name="ttype"  value="{{bank.transaction_type}}">
+                                <input type="text" class="form-control text-dark" name="ttype"
+                                    value="{{bank.transaction_type}}">
                             </div>
                         </div>
                     </div>
@@ -290,37 +321,64 @@
                         <div class="col-6">
                             <label for="">Income Tax Number</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control text-dark" name="itn" value="{{pay.ITN}}"></div>
+                        <div class="col-6"><input type="number" class="form-control text-dark" name="itn"
+                                value="{{pay.ITN}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Aadhar Number</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control text-dark" name="an" id="an" value="{{pay.Aadhar}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="an" id="an"
+                                value="{{pay.Aadhar}}"></div>
                     </div>
+                    <script>
+                        const input = document.getElementById("an");
+                        input.addEventListener("input", () => input.value = formatNumber(input.value.replaceAll(" ", "")));
+
+                        const formatNumber = (number) => number.split("").reduce((seed, next, index) => {
+                            if (index !== 0 && !(index % 4)) seed += " ";
+                            return seed + next;
+                        }, "");
+                    </script>
+                    <script>
+                        document.getElementById("an").addEventListener("input", function () {
+                            const input = this.value;
+                            if (input.length > 14) {
+                                this.value = input.slice(0, 14); // Truncate the input to 10 characters
+                            }
+                            this.value = insertSpaces(input);
+
+                        });
+                        
+
+                    </script>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Universal Account Number(UAN)</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control text-dark" name="uan" value="{{pay.UAN}}"></div>
+                        <div class="col-6"><input type="number" class="form-control text-dark" name="uan"
+                                value="{{pay.UAN}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">PF Account Number(PFN)</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control text-dark" name="pfn" value="{{pay.PFN}}"></div>
+                        <div class="col-6"><input type="number" class="form-control text-dark" name="pfn"
+                                value="{{pay.PFN}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">PR Account Number(PRAN)</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control text-dark" name="pran" value="{{pay.PRAN}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="pran"
+                                value="{{pay.PRAN}}"></div>
                     </div>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">TDS</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control text-dark" name="tds" value="{{pay.TDS}}"></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="tds"
+                                value="{{pay.TDS}}"></div>
                     </div>
                 </div>
             </div>
@@ -344,54 +402,48 @@
 
 
 
-</section>
-<script>
-    inputvalue=document.getElementById('ifsc')
-    inputvalue.addEventListener("input", function () {
-        inputvalue.value = inputvalue.value.toUpperCase();
+    <script>
+        inputvalue = document.getElementById('empnum')
+        inputvalue.addEventListener("input", function () {
+            inputvalue.value = inputvalue.value.toUpperCase();
         });
+    </script>
+
+    <script>
         const inputFields = document.querySelectorAll("input[type='text']");
 
-        inputFields.forEach(function(input) {
-            input.addEventListener("input", function() {
+        inputFields.forEach(function (input) {
+            input.addEventListener("input", function () {
                 const inputValue = input.value;
                 input.value = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
             });
         });
-        document.getElementById("an").addEventListener("input", function() {
-      const input = this.value;
-      if (input.length > 12) {
-        this.value = input.slice(0, 12); // Truncate the input to 10 characters
-      }
-    });
-    document.getElementById("acc_no").addEventListener("input", function() {
-      const input = this.value;
-      if (input.length > 15) {
-        this.value = input.slice(0, 15); // Truncate the input to 10 characters
-      }
-    });
-    function phoneValidate(phn, pherror) {
-        if (!phn.value.match(/^[6-9]\d{9}$/)) {
-            pherror.style.display = "block"
-            pherror.style.fontSize = ".8rem"
-            pherror.innerHTML = "*Please enter a valid phone number"
-            return false;
-        }
-        pherror.style.display = "none"
-        pherror.innerHTML = ""
-        return true;
-    }
-    function emailvalidate() {
-        var email = document.getElementById('email')
-        var error = document.getElementById('error')
-        if (!email.value.match(/^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)) {
-            error.style.fontSize = ".8rem"
-            error.innerHTML = "*Please enter a valid email"
-            return false;
 
+
+        function phoneValidate(phn, pherror) {
+            if (!phn.value.match(/^[6-9]\d{9}$/)) {
+                pherror.style.display = "block"
+                pherror.style.fontSize = ".8rem"
+                pherror.innerHTML = "*Please enter a valid phone number"
+                return false;
+            }
+            pherror.style.display = "none"
+            pherror.innerHTML = ""
+            return true;
         }
-        error.innerHTML = ""
-        return true;
-    }
-</script>
+        function emailvalidate() {
+            var email = document.getElementById('email')
+            var error = document.getElementById('error')
+            if (!email.value.match(/^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)) {
+                error.style.fontSize = ".8rem"
+                error.innerHTML = "*Please enter a valid email"
+                return false;
+
+            }
+            error.innerHTML = ""
+            return true;
+        }
+    </script>
+
+</section>
 {% endblock %}

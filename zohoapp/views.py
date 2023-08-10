@@ -6826,6 +6826,12 @@ def editpayroll(request,id):
         p.joindate=request.POST['joindate']
         p.salary=request.POST['salary']   
         # p.image=request.FILES.get('file')
+        new=request.FILES.get('file')
+        old= p.image
+        if old!=None and new==None:
+            p.image=old
+        else:
+            p.image=new
         p.emp_number = request.POST['empnum']
         p.designation = request.POST['designation']
         p.location=request.POST['location']
@@ -6843,7 +6849,11 @@ def editpayroll(request,id):
         p.address=address 
         p.permanent_address=paddress 
         p.Phone=request.POST['phone']
-        p.emergency_phone=request.POST['ephone']
+        ephone=request.POST['ephone']
+        if ephone =="":
+            p.emergency_phone=None
+        else:
+            p.emergency_phone=request.POST['ephone']
         p.email=request.POST['email']
         p.ITN=request.POST['itn']
         p.Aadhar=request.POST['an']
@@ -6879,6 +6889,8 @@ def createpayroll(request):
         else:
             salary=request.POST['vsalary']
         image=request.FILES.get('file')
+        if image == None:
+            image="image/img.png"
         empnum=request.POST['empnum']
         designation = request.POST['designation']
         location=request.POST['location']
@@ -6894,7 +6906,11 @@ def createpayroll(request):
         padd2=request.POST['paddress2'] 
         paddress= padd1+padd2
         phone=request.POST['phone']
-        ephone=request.POST['ephone']
+        ephn=request.POST['ephone']
+        if ephn=="":
+            ephone=None
+        else:
+            ephone=request.POST['ephone']
         email=request.POST['email']
         isdts=request.POST['tds']
         if isdts == '1':
@@ -6994,22 +7010,23 @@ def deletefile(request,aid):
     return redirect('payroll_view',p.id)
 
 def split_paragraph(paragraph):
-    words = paragraph.split()
-    total_words = len(words)
+    if paragraph is None:
+        return '',''
+    else:
+        words = paragraph.split()
+        total_words = len(words)
+        midpoint = None
+        for i in range(total_words):
+            if i > total_words // 2 and words[i].isalpha():
+                midpoint = i
+                break
+        if midpoint is None:
+            # If no suitable midpoint found, split at the actual midpoint
+            midpoint = total_words // 2
     
-    midpoint = None
-    for i in range(total_words):
-        if i > total_words // 2 and words[i].isalpha():
-            midpoint = i
-            break
-    
-    if midpoint is None:
-        # If no suitable midpoint found, split at the actual midpoint
-        midpoint = total_words // 2
-    
-    first_half = ' '.join(words[:midpoint])
-    second_half = ' '.join(words[midpoint:])
-    return first_half, second_half
+        first_half = ' '.join(words[:midpoint])
+        second_half = ' '.join(words[midpoint:])
+        return first_half, second_half
 
 def payroll_edit(request,pid):  
     p=Payroll.objects.get(id=pid)

@@ -279,8 +279,9 @@
                             <label for="">Permanent Address</label>
                         </div>
                         <div class="col-6">
-                            <textarea class="form-control text-dark mb-2" name="paddress" id="padrs1" required></textarea>
-                            <textarea class="form-control text-dark" name="paddress2" id="padrs2" ></textarea>
+                            <textarea class="form-control text-dark mb-2 pt-0" name="paddress" id="padrs1"
+                                required></textarea>
+                            <textarea class="form-control text-dark pt-0" name="paddress2" id="padrs2"></textarea>
                         </div>
                     </div>
                     <div class="row pb-4">
@@ -288,12 +289,14 @@
                             <label for="">Temporary Address</label>
                         </div>
                         <div class="col-6">
-                            <input class="mx-2" type="checkbox" id="filladdress" name="filladdress" ><label style="font-size: .8rem;">Same as permanent address</label>
-                            <textarea class="form-control text-dark mb-2" name="address" id="adrs1" required></textarea>
-                            <textarea class="form-control text-dark" name="address2" id="adrs2" ></textarea>
+                            <input class="mx-2" type="checkbox" id="filladdress" name="filladdress"><label
+                                style="font-size: .8rem;">Same as permanent address</label>
+                            <textarea class="form-control text-dark mb-2 pt-0" name="address" id="adrs1"
+                                required></textarea>
+                            <textarea class="form-control text-dark pt-0" name="address2" id="adrs2"></textarea>
                         </div>
                     </div>
-                    
+
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Contact Number</label>
@@ -448,9 +451,18 @@
                         <div class="col-6">
                             <label for="">Aadhar Number</label>
                         </div>
-                        <div class="col-6"><input type="number" class="form-control text-dark" name="an" id="an"
-                                pattern="[0-9]{12}" required></div>
+                        <div class="col-6"><input type="text" class="form-control text-dark" name="an" id="an"
+                             required></div>
                     </div>
+                    <script>
+                        const input = document.getElementById("an");
+                        input.addEventListener("input", () => input.value = formatNumber(input.value.replaceAll(" ", "")));
+
+                        const formatNumber = (number) => number.split("").reduce((seed, next, index) => {
+                            if (index !== 0 && !(index % 4)) seed += " ";
+                            return seed + next;
+                        }, "");
+                    </script>
                     <div class="row pb-3">
                         <div class="col-6">
                             <label for="">Universal Account Number(UAN)</label>
@@ -602,32 +614,32 @@
         });
     });
 
-    document.getElementById("an").addEventListener("input", function() {
-      const input = this.value;
-      if (input.length > 12) {
-        this.value = input.slice(0, 12); // Truncate the input to 10 characters
-      }
+    document.getElementById("an").addEventListener("input", function () {
+        const input = this.value;
+        if (input.length > 14) {
+            this.value = input.slice(0, 14); // Truncate the input to 10 characters
+        }
     });
-    document.getElementById("acc_no").addEventListener("input", function() {
-      const input = this.value;
-      if (input.length > 15) {
-        this.value = input.slice(0, 15); // Truncate the input to 10 characters
-      }
+    document.getElementById("acc_no").addEventListener("input", function () {
+        const input = this.value;
+        if (input.length > 15) {
+            this.value = input.slice(0, 15); // Truncate the input to 10 characters
+        }
     });
 
-    $(document).ready(function(){
-    $("#filladdress").on("click", function(){
-         if (this.checked) { 
+    $(document).ready(function () {
+        $("#filladdress").on("click", function () {
+            if (this.checked) {
                 $("#adrs1").val($("#padrs1").val());
                 $("#adrs2").val($("#padrs2").val());
-                                         
-    }
-    else {
-        $("#adrs1").val('');
-        $("#adrs2").val('');           
-    }
+
+            }
+            else {
+                $("#adrs1").val('');
+                $("#adrs2").val('');
+            }
+        });
     });
-});
-  </script>
-  
+</script>
+
 {% endblock %}
