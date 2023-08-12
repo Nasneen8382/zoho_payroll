@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-<!-- Include the html2pdf.js library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 
 
 <style>
@@ -25,7 +25,7 @@
         align-items: center;
         display: flex;
         justify-content: space-between;
-        /* padding: 1rem .8rem; */
+        /* margin: 0 1rem; */
     }
 
     .searchbar .btn {
@@ -61,7 +61,8 @@
         height: 2.5vw;
     }
 
-    #div-to-pdf .p-info label,#div-to-pdf .bank-div label{
+    #div-to-pdf .p-info label,
+    #div-to-pdf .bank-div label {
         color: #ffffff;
         font-size: .8rem;
     }
@@ -81,7 +82,8 @@
     }
 
 
-    #div-to-pdf .p-info .bold ,#div-to-pdf .bank-div .bold{
+    #div-to-pdf .p-info .bold,
+    #div-to-pdf .bank-div .bold {
         font-size: 1rem;
         color: #ffffff;
         /* font-weight: bold; */
@@ -91,21 +93,25 @@
         z-index: 9999;
         overflow: scroll;
     }
-.right .dropdown-menu {
-    width: 30vw;
-}
-.modal-backdrop {
-            background-color: rgb(0, 0, 0);  
-        }
-.modal .table th{
-    color: #ffffff;
-}
-.modal-content {
- padding: 1.5rem;
- width: 50vw;
- height:auto !important;
-margin: auto;
-}
+
+    .right .dropdown-menu {
+        width: 30vw;
+    }
+
+    .modal-backdrop {
+        background-color: rgb(0, 0, 0);
+    }
+
+    .modal .table th {
+        color: #ffffff;
+    }
+
+    .modal-content {
+        padding: 1.5rem;
+        width: 50vw;
+        height: auto !important;
+        margin: auto;
+    }
 </style>
 <section>
     <div class="row p-3">
@@ -134,7 +140,7 @@ margin: auto;
                 <tr class='clickable-row' data-href="{% url 'payroll_view' i.id %}">
                     <td class="pt-2">
                         <p class="bold">{{i.first_name}} {{i.last_name}}</p>
-                        <p >{{ i.joindate}}</p>
+                        <p>{{ i.joindate}}</p>
 
                     </td>
                     <td class="pt-2">{{ i.salary}}</td>
@@ -153,11 +159,37 @@ margin: auto;
                         <a class="btn mx-1" href="#home">Overview</a>
                     </div>
                     <div class="right">
-                        <a class="btn ml-1" href="{% url 'payroll_edit' p.id %}" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
-                        <a class="btn ml-1" href="" id="convertToPDFButton" onclick="generatePDF()"  data-toggle="tooltip" title="Pdf"><i
-                                class="mdi mdi-printer"></i></a>
-                        <a class="btn ml-1" href="" id="dd1" data-bs-toggle="dropdown" aria-haspopup="true"  data-toggle="tooltip" title="Download Attachments"
-                            aria-expanded="false" role="button">
+                        <a class="btn ml-1" href="{% url 'payroll_edit' p.id %}" data-toggle="tooltip" title="Edit"><i
+                                class="fas fa-edit"></i></a>
+                        <a class="btn btn_print ml-1" href="" id="convertToPDFButton" data-toggle="tooltip"
+                            title="Pdf"><i class="mdi mdi-file-pdf"></i></a>
+                        <!-- onclick="generatePDF()" -->
+                        
+                        <script type="text/javascript">
+                            $(document).ready(function ($) {
+                                console.log('print');
+
+                                $(document).on('click', '.btn_print', function (event) {
+                                    console.log('print1');
+                                    event.preventDefault();
+                                    var element = document.getElementById('div-to-pdf');
+                                    var opt =
+                                    {
+                                        margin: 1,
+                                        filename: 'employee' + '.pdf',
+                                        image: { type: 'jpeg', quality: 0.98 },
+                                        html2canvas: { scale: 2 },
+                                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                                    };
+                                    html2pdf().set(opt).from(element).save();
+
+                                });
+
+                            });
+                        </script>
+                        
+                        <a class="btn ml-1" href="" id="dd1" data-bs-toggle="dropdown" aria-haspopup="true"
+                            data-toggle="tooltip" title="Download Attachments" aria-expanded="false" role="button">
                             <i class="fas fa-download"></i>
                         </a>
                         <div class="dropdown-menu">
@@ -176,10 +208,12 @@ margin: auto;
                             {% endif %}
                         </div>
 
-                        <a class="btn ml-1" href="{% url 'payroll_delete' p.id %}"  data-toggle="tooltip" title="Delete"><i class="fa fa-trash"></i></a>
-                        <a class="btn ml-1" href="" data-toggle="modal" data-target="#commentModal" data-toggle="tooltip" title="comment"><i
-                                class="far fa-comment"></i></a>
-                        <label for="file-input" class="btn ml-1 border-0"  data-toggle="tooltip" title="Upload Attachments">
+                        <a class="btn ml-1" href="{% url 'payroll_delete' p.id %}" data-toggle="tooltip"
+                            title="Delete"><i class="fa fa-trash"></i></a>
+                        <a class="btn ml-1" href="" data-toggle="modal" data-target="#commentModal"
+                            data-toggle="tooltip" title="comment"><i class="far fa-comment"></i></a>
+                        <label for="file-input" class="btn ml-1 border-0" data-toggle="tooltip"
+                            title="Upload Attachments">
                             <i class="fas fa-paperclip"></i>
                         </label>
                         <input id="file-input" type="file" name="file" style="display:none;" onchange="uploadFile()">
@@ -187,17 +221,20 @@ margin: auto;
                     </div>
                 </div>
                 <hr>
-                <!-- <div id="pdf-content"><h2>this is content</h2></div> -->
-                <!-- <div class="div-to-pdf" id="div-to-pdf" style="background-color: rgb(167, 123, 13);"> -->
+                
 
                 <div class="div-to-pdf row" id="div-to-pdf" style="height: 100%;background-color: burlywood">
                     <div class="bar pt-2 pb-4">
-                        <div class="left text-uppercase" style="font-size: 1rem;font-weight: 600;"> {{p.designation}}</div>
-                        <div class="right" style="font-size: 1rem;font-weight: 600;">Emp no: {{p.emp_number}} <br>join Date: {{p.joindate}}</div>
+                        <div class="left text-uppercase" style="font-size: 1rem;font-weight: 600;"> {{p.designation}}
+                        </div>
+                        <div class="right" style="font-size: 1rem;font-weight: 600;">Emp no: {{p.emp_number}} <br>join
+                            Date: {{p.joindate}}</div>
                     </div>
 
                     <div class="row text-center">
-                        <h3 style="color: #000000;">EMPLOYEE DETAILS<hr></h3>
+                        <h3 style="color: #000000;">EMPLOYEE DETAILS
+                            <hr>
+                        </h3>
                     </div>
                     <div class="gen-info col-6 " style="padding-left: 3rem;">
                         <div class="photo text-center py-3" style="height: 30vh;">
@@ -228,7 +265,7 @@ margin: auto;
                                 <p class="bold">{{p.location}}</p>
                             </div>
                         </div>
-                        
+
                         <div class="h4 mt-3">More info
                             <hr>
                         </div>
@@ -241,7 +278,8 @@ margin: auto;
                         <div class="row mt-3">
                             <div class="col-7"><label for="">Permanent Address :</label></div>
                             <div class="col-5">
-                                <p class="bold" style="max-width: 10rem;word-wrap: break-word;">{{p.permanent_address}}</p>
+                                <p class="bold" style="max-width: 10rem;word-wrap: break-word;">{{p.permanent_address}}
+                                </p>
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -343,22 +381,32 @@ margin: auto;
                     {% for bank in b %}
                     <div class="row m-1">
                         <div class="card bank-div" style="background-color: rgb(78, 72, 53);width: 100%;">
-                            <h4 class="text-center mt-4">Bank Details<hr></h4>
+                            <h4 class="text-center mt-4">Bank Details
+                                <hr>
+                            </h4>
                             <div class="row mt-2 px-5">
                                 <div class="col-6"><label for="">Account Number</label></div>
-                                <div class="col-6"><p class="bold">{{bank.acc_no}}</p></div>
+                                <div class="col-6">
+                                    <p class="bold">{{bank.acc_no}}</p>
+                                </div>
                             </div>
                             <div class="row mt-2 px-5">
                                 <div class="col-6"><label for="">Bank</label></div>
-                                <div class="col-6"><p class="bold">{{bank.bank_name}}</p></div>
+                                <div class="col-6">
+                                    <p class="bold">{{bank.bank_name}}</p>
+                                </div>
                             </div>
                             <div class="row mt-2 px-5">
                                 <div class="col-6"><label for="">IFSC</label></div>
-                                <div class="col-6"><p class="bold">{{bank.IFSC}}</p></div>
+                                <div class="col-6">
+                                    <p class="bold">{{bank.IFSC}}</p>
+                                </div>
                             </div>
                             <div class="row mt-2 px-5">
                                 <div class="col-6"><label for="">Branch Name</label></div>
-                                <div class="col-6"><p class="bold">{{bank.branch}}</p></div>
+                                <div class="col-6">
+                                    <p class="bold">{{bank.branch}}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -405,7 +453,8 @@ margin: auto;
                                     <tr class="table-row">
                                         <td>{{forloop.counter }}</td>
                                         <td>{{c.comment}}</td>
-                                        <td><a class="text-danger" href="{% url 'delete_payrollcomment' c.id  %}">Delete</a></td>
+                                        <td><a class="text-danger"
+                                                href="{% url 'delete_payrollcomment' c.id  %}">Delete</a></td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -570,20 +619,20 @@ margin: auto;
     }
 
 </script>
-<script>
+<!-- <script>
     function generatePDF() {
         const container = document.getElementById('div-to-pdf');
         const options = {
-        filename: 'employee.pdf',
-        image:{type:'jpeg',quality:0.98},
-        htmt2canvas:{scale:2},
-        jsPDF:{unit:'mm', format:'a4', orientation:'portrait'}
-    };
-    html2pdf().from(container).set(options).save();
+            filename: 'employee.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            htmt2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().from(container).set(options).save();
     };
 
 
-    </script>
+</script> -->
 
 {% endblock %}
 

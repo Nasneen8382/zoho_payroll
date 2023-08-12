@@ -6860,7 +6860,13 @@ def editpayroll(request,id):
         p.UAN=request.POST['uan']
         p.PFN=request.POST['pfn']
         p.PRAN=request.POST['pran']
-        p.TDS=request.POST['tds']
+        istds=request.POST['istds']
+        if istds == '1':
+            p.isTDS=request.POST['pora']
+            p.TDS=request.POST['tds']
+        else:
+            p.isTDS='No'
+            p.TDS=0
         p.save()
         
         if Bankdetails.objects.filter(payroll=p).exists():
@@ -6871,6 +6877,16 @@ def editpayroll(request,id):
             b.branch=request.POST['branch']
             b.transaction_type=request.POST['ttype']
             b.save()
+        else:
+            bank=request.POST['bank']
+            if(bank == '1'):
+                accno=request.POST['acc_no']       
+                ifsc=request.POST['ifsc']       
+                bname=request.POST['b_name']       
+                branch=request.POST['branch']
+                ttype=request.POST['ttype']
+                b=Bankdetails(payroll=p,acc_no=accno,IFSC=ifsc,bank_name=bname,branch=branch,transaction_type=ttype)
+                b.save()
         
     else:
         return redirect('payroll_view',id=id)
@@ -6901,7 +6917,7 @@ def createpayroll(request):
         sname=request.POST['s_name']        
         add1=request.POST['address']
         add2=request.POST['address2']
-        address=add1+add2
+        address=add1+" "+add2
         padd1=request.POST['paddress'] 
         padd2=request.POST['paddress2'] 
         paddress= padd1+padd2

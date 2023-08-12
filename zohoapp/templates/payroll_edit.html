@@ -20,7 +20,7 @@
     .data option,
     .gen-info option {
         /* background-color: rgb(73, 72, 72); */
-        /* color: white; */
+        color: rgb(7, 7, 7);
         border: none;
     }
 
@@ -259,6 +259,8 @@
                     </div>
                 </div>
                 <div class="col-6 col-lg-6 col-md-6 col-sm-12 pt-3">
+                    
+                 
                     {% for bank in b %}
                     <div class="bank" id="bank">
                         <h4 class="text-center py-2">Bank information</h4>
@@ -269,14 +271,7 @@
                             <div class="col-6"><input type="number" class="form-control text-dark" name="acc_no"
                                     id="acc_no" value="{{bank.acc_no}}"></div>
                         </div>
-                        <script>
-                            document.getElementById("acc_no").addEventListener("input", function () {
-                                const input = this.value;
-                                if (input.length > 15) {
-                                    this.value = input.slice(0, 15); // Truncate the input to 10 characters
-                                }
-                            });
-                        </script>
+                        
                         <div class="row pb-3">
                             <div class="col-6">
                                 <label for="">IFSC</label>
@@ -284,12 +279,7 @@
                             <div class="col-6"><input type="text" class="form-control text-dark" name="ifsc"
                                     value="{{bank.IFSC}}" id="ifsc"></div>
                         </div>
-                        <script>
-                            inputvalue = document.getElementById('ifsc')
-                            inputvalue.addEventListener("input", function () {
-                                inputvalue.value = inputvalue.value.toUpperCase();
-                            });
-                        </script>
+                        
                         <div class="row pb-3">
                             <div class="col-6">
                                 <label for="">Name of Bank</label>
@@ -310,12 +300,76 @@
                                 <label for="">Transaction Type</label>
                             </div>
                             <div class="col-6">
-                                <input type="text" class="form-control text-dark" name="ttype"
-                                    value="{{bank.transaction_type}}">
+                                <select class="form-control text-dark" name="ttype" id="ttype">
+                                    <option value="{{bank.transaction_type}}">{{bank.transaction_type}}</option>
+                                    <option value="ATM">ATM</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="Check">Check</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                     {% endfor %}
+                    {% if not b %}
+                    
+                    <div class="row pb-4">
+                        <div class="col-6">
+                            <label for="">Provide Bank Details</label>
+                        </div>
+                        <div class="col-6"><select class="form-control text-dark" name="bank" id="dropId"
+                                onchange="bankdisplay()" required>
+                                <option value=""></option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bank" id="bank" style="display: none;">
+                        <h4 class="text-center py-2">Bank information</h4>
+                        <div class="row pb-3">
+                            <div class="col-6">
+                                <label for="">Account Number</label>
+                            </div>
+                            <div class="col-6"><input type="number" class="form-control text-dark" name="acc_no"
+                                    id="acc_no" pattern="[0-9]{15}"></div>
+                        </div>
+                        <div class="row pb-3">
+                            <div class="col-6">
+                                <label for="">IFSC</label>
+                            </div>
+                            <div class="col-6"><input type="text" class="form-control text-dark" name="ifsc" id="ifsc">
+                            </div>
+                        </div>
+                        <div class="row pb-3">
+                            <div class="col-6">
+                                <label for="">Name of Bank</label>
+                            </div>
+                            <div class="col-6"><input type="text" class="form-control text-dark" name="b_name"
+                                    id="b_name"></div>
+                        </div>
+                        <div class="row pb-3">
+                            <div class="col-6">
+                                <label for="">Branch Name</label>
+                            </div>
+                            <div class="col-6"><input type="text" class="form-control text-dark" name="branch"
+                                    id="branch"></div>
+                        </div>
+                        <h5 class="text-center py-1">For Banking</h5>
+                        <div class="row pb-3">
+                            <div class="col-6">
+                                <label for="">Transaction Type</label>
+                            </div>
+                            <div class="col-6">
+                                <select class="form-control text-dark" name="ttype" id="ttype">
+                                    <option value=""></option>
+                                    <option value="ATM">ATM</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="Check">Check</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
                     <h4 class="text-center py-2">Statutary information</h4>
                     <div class="row pb-3">
                         <div class="col-6">
@@ -349,7 +403,7 @@
                             this.value = insertSpaces(input);
 
                         });
-                        
+
 
                     </script>
                     <div class="row pb-3">
@@ -373,13 +427,68 @@
                         <div class="col-6"><input type="text" class="form-control text-dark" name="pran"
                                 value="{{pay.PRAN}}"></div>
                     </div>
+                    
                     <div class="row pb-3">
                         <div class="col-6">
-                            <label for="">TDS</label>
+                            <label for="">TDS Applicable</label>
                         </div>
-                        <div class="col-6"><input type="text" class="form-control text-dark" name="tds"
-                                value="{{pay.TDS}}"></div>
+                        <div class="col-6">
+
+                            <select class="form-control text-dark" name="istds" id="tds" onchange="tdsFunction()"
+                                required>
+                                {% if pay.isTDS == 'No' %}
+                                <option value="0">{{pay.isTDS}}</option>
+                                <option value="1">Yes</option>
+                                {% else %}
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                                {% endif %}
+                            </select>
+                           
+                        </div>
                     </div>
+                    
+                    <div id="tds-div" style="display: block;">
+                        {% if pay.isTDS != 'No' %}
+                        <div class="row pb-3">
+                            <div class="col-6">
+                                <label for="">TDS</label>
+                            </div>
+                            <div class="col-3">
+                                <select class="form-control text-dark px-1" name="pora" id="pora">
+                                    <option value="{{pay.isTDS}}">{{pay.isTDS}}</option>
+                                    <option value="Percentage">Percentage</option>
+                                    <option value="Amount">Amount</option>
+
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <input type="number" class="form-control text-dark" name="tds" value="{{pay.TDS}}">
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="row pb-3">
+                            <div class="col-6 ">
+                                <label for="">TDS</label>
+                            </div>
+                            <div class="col-3">
+                                <select class="form-control text-dark px-1" name="pora" id="pora">
+                                    <option value="">select</option>
+                                    <option value="Percentage">Percentage</option>
+                                    <option value="Amount">Amount</option>
+
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <input type="number" class="form-control text-dark px-1" name="tds" value="">
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        
+                        
+                    </div>
+
                 </div>
             </div>
             <hr>
@@ -394,6 +503,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
                 {% endfor %}
             </div>
         </form>
@@ -444,6 +554,57 @@
             return true;
         }
     </script>
+    <script>
+        //      var e = document.getElementById("tds");
 
+        // e.addEventListener("change", function() {
+        //   const sal = e.value;
+        //   if (sal == '1') {
+        //             document.getElementById("tds-div").style.display = 'block'
+        //         }
+        //         else {
+        //             document.getElementById("tds-div").style.display = 'none'
+        //         }
+        // Perform any other actions you want with the selected value
+        // });
+        function tdsFunction() {
+            var e = document.getElementById("tds");
+            var sal = e.value;
+            if (sal == '1') {
+                document.getElementById("tds-div").style.display = 'block'
+                document.getElementById("tds-2").style.display = 'none'
+            }
+            else {
+                document.getElementById("tds-div").style.display = 'none'
+            }
+
+        }
+        
+        function bankdisplay() {
+        var e = document.getElementById("dropId").value;
+
+        if (e == 0) {
+            document.getElementById("bank").style.display = 'none'
+
+        }
+        else {
+            document.getElementById("bank").style.display = 'block'
+        }
+
+    }
+    
+    </script>
+    <script>
+        document.getElementById("acc_no").addEventListener("input", function () {
+            const input = this.value;
+            if (input.length > 15) {
+                this.value = input.slice(0, 15); // Truncate the input to 10 characters
+            }
+        });
+        inputvalue = document.getElementById('ifsc')
+                            inputvalue.addEventListener("input", function () {
+                                inputvalue.value = inputvalue.value.toUpperCase();
+                            });
+    </script>
 </section>
 {% endblock %}
